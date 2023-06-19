@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "204722986911",
+    "project_id": "ntu-ventes-app",
+    "storage_bucket": "ntu-ventes-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204722986911:android:d14e537b626c541b8fa7aa",
+        "android_client_info": {
+          "package_name": "com.example.ventes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204722986911-sq89esegh7eacgokcrakmfamdboeo86i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4W6PqDsp5znWYY_WMmJcjNoddPPlAE2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204722986911-sq89esegh7eacgokcrakmfamdboeo86i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

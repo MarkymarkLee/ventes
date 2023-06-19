@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>204722986911-glgs9802cgmi59up89ju5e9dosrd5iks.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.204722986911-glgs9802cgmi59up89ju5e9dosrd5iks</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBywecEy8qeVSysCLfaYqAjwTfIyiYfryY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>204722986911</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.ventes</string>
+	<key>PROJECT_ID</key>
+	<string>ntu-ventes-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ntu-ventes-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:204722986911:ios:5db5e4772c77d6ad8fa7aa</string>
+</dict>
+</plist>

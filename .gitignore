@@ -11,6 +11,8 @@
 .svn/
 migrate_working_dir/
 
+python/secret.py
+
 # IntelliJ related
 *.iml
 *.ipr

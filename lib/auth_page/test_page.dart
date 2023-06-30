@@ -1,18 +1,16 @@
 import 'package:ventes/auth_page/components.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatefulWidget {
-  final VoidCallback showLoginPage;
-  const RegisterPage({
+class TestPage extends StatefulWidget {
+  const TestPage({
     super.key,
-    required this.showLoginPage,
   });
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<TestPage> createState() => _TestPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _TestPageState extends State<TestPage> {
   final idController = TextEditingController();
   final realnameController = TextEditingController();
   final nicknameController = TextEditingController();
@@ -22,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String nicknameError = "";
   String emailError = "";
 
-  void register() {
+  void verify() {
     setState(() {
       idError = "Not a valid ID";
       realnameError = "Not a valid name";
@@ -30,8 +28,6 @@ class _RegisterPageState extends State<RegisterPage> {
       emailError = "Not a valid email";
     });
   }
-
-  void switchtoLoginPage() {}
 
   @override
   Widget build(BuildContext context) {
@@ -188,32 +184,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
               // register
               MyButton(
-                buttonText: "Register",
-                onTap: register,
+                buttonText: "Verify",
+                onTap: verify,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    children: [
-                      Expanded(child: Container()),
-                      Text(
-                        "If you already registered, ",
-                        style: TextStyle(
-                            color: Colors.amber.shade100, fontSize: 16),
-                      ),
-                      TextButton(
-                          onPressed: widget.showLoginPage,
-                          child: Text(
-                            "Sign in here !",
-                            style: TextStyle(
-                                color: Colors.amber.shade100, fontSize: 16),
-                          )),
-                    ],
-                  ),
-                ),
-              )
             ],
           )),
         ));

@@ -9,7 +9,7 @@ class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -33,7 +33,7 @@ class MyButton extends StatelessWidget {
 }
 
 class MyTextField extends StatelessWidget {
-  final controller;
+  final dynamic controller;
   final String hintText;
 
   const MyTextField({
@@ -47,7 +47,6 @@ class MyTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
-        onSubmitted: (value) {},
         controller: controller,
         decoration: InputDecoration(
             enabledBorder: const OutlineInputBorder(

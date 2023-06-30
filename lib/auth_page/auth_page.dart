@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ventes/auth_page/login_page.dart';
-import 'package:ventes/auth_page/register_page.dart';
+import 'package:ventes/main_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -10,24 +11,21 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  bool showLoginPage = true;
-
-  void switchPage() {
-    setState(() {
-      showLoginPage = !showLoginPage;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (showLoginPage) {
-      return LoginPage(
-        showRegisterPage: switchPage,
-      );
-    } else {
-      return RegisterPage(
-        showLoginPage: switchPage,
-      );
-    }
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
+
+        if (snapshot.data == null) {
+          return LoginPage();
+        } else {
+          return MainPage(email: FirebaseAuth.instance.currentUser!.email!);
+        }
+      }),
+    );
   }
 }

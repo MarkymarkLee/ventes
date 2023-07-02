@@ -28,9 +28,14 @@ class _MainPageState extends State<MainPage> {
               return const VerifyPage();
             }
           }
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
+          return AlertDialog(
+            content: Row(
+              children: [
+                const CircularProgressIndicator(),
+                Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    child: const Text("Loading")),
+              ],
             ),
           );
         });

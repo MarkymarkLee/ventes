@@ -67,29 +67,29 @@ class _OTPPageState extends State<OTPPage> {
   }
 
   void verify() {
-    AlertDialog alert = AlertDialog(
-      content: Row(
-        children: [
-          const CircularProgressIndicator(),
-          Container(
-              margin: const EdgeInsets.only(left: 20),
-              child: const Text("Loading")),
-        ],
-      ),
-    );
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return AlertDialog(
+          content: Row(
+            children: [
+              const CircularProgressIndicator(),
+              Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: const Text("Loading")),
+            ],
+          ),
+        );
       },
     );
     verifyOtp().then((value) async {
       if (value) {
-        Navigator.pop(context);
-        Navigator.pop(context);
         await UsersData.updateUser(FirebaseAuth.instance.currentUser!.email!,
             {"isVerified": true, "schoolEmail": widget.email});
+        if (!context.mounted) return;
+        Navigator.pop(context);
+        Navigator.pop(context);
       } else {
         Navigator.pop(context);
         setState(() {

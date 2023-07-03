@@ -1,10 +1,20 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../firebase_options.dart';
-import 'package:flutter/foundation.dart'
-    show TargetPlatform;
+import '../Settings/firebase_options.dart';
+import 'package:flutter/foundation.dart' show TargetPlatform;
 
 class AuthService {
+  GoogleSignIn googleSignIn() {
+    // if currentPlatform is either ios and macos, then need to specify the clientId
+    if (TargetPlatform.iOS == TargetPlatform.iOS ||
+        TargetPlatform.macOS == TargetPlatform.macOS) {
+      return GoogleSignIn(
+          clientId: DefaultFirebaseOptions.currentPlatform.iosClientId);
+    } else {
+      return GoogleSignIn();
+    }
+  }
+
   signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await googleSignIn().signIn();
@@ -30,14 +40,5 @@ class AuthService {
 
   getCurrentUserEmail() {
     return FirebaseAuth.instance.currentUser!.email;
-  }
-}
-
-GoogleSignIn googleSignIn() {
-  // if currentPlatform is either ios and macos, then need to specify the clientId
-  if (TargetPlatform.iOS == TargetPlatform.iOS || TargetPlatform.macOS == TargetPlatform.macOS) {
-    return GoogleSignIn(clientId: DefaultFirebaseOptions.currentPlatform.iosClientId);
-  } else {
-    return GoogleSignIn();
   }
 }

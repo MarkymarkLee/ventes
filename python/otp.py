@@ -48,6 +48,9 @@ def manage_otp(email,otp,action):
         
         verified = False
         if action == "add":
+            for i in range(len(data)):
+                if data[i]["email"] == email:
+                    data.pop(i)
             data.append({"email":email,"otp":otp,"time":current_time})
         elif action == "verify":
             for i in range(len(data)):
@@ -55,7 +58,6 @@ def manage_otp(email,otp,action):
                     data.pop(i)
                     verified = True
                     break
-
         with open("otp.json", "w") as f:
             json.dump(data, f)
 

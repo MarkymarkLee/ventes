@@ -2,15 +2,16 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ventes/users_data.dart';
-import 'components.dart';
+import 'package:ventes/Functions/users_data.dart';
+import '../Components/components.dart';
 
 // ignore: constant_identifier_names
 const int RESENDSECONDS = 60;
 
 class OTPPage extends StatefulWidget {
   final String email;
-  const OTPPage({super.key, required this.email});
+  final Function switchPage;
+  const OTPPage({super.key, required this.email, required this.switchPage});
 
   @override
   State<OTPPage> createState() => _OTPPageState();
@@ -67,10 +68,11 @@ class _OTPPageState extends State<OTPPage> {
   }
 
   void verify() {
-    showDialog(
+    showGeneralDialog(
       barrierDismissible: false,
+      useRootNavigator: false,
       context: context,
-      builder: (BuildContext context) {
+      pageBuilder: (BuildContext context, a, b) {
         return AlertDialog(
           content: Row(
             children: [
@@ -87,11 +89,11 @@ class _OTPPageState extends State<OTPPage> {
       if (value) {
         await UsersData.updateUser(FirebaseAuth.instance.currentUser!.email!,
             {"isVerified": true, "schoolEmail": widget.email});
-        if (!context.mounted) return;
-        Navigator.pop(context);
-        Navigator.pop(context);
+        if (context.mounted) {
+          Navigator.of(context, rootNavigator: false).pop();
+        }
       } else {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: false).pop();
         setState(() {
           otpError = "Try again!";
         });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ventes/auth_page/auth_service.dart';
-import 'auth_page/components.dart';
+import 'package:ventes/Auth/auth_service.dart';
+import '../Components/components.dart';
 
 class MainContentPage extends StatefulWidget {
   const MainContentPage({super.key});

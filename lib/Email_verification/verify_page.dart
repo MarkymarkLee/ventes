@@ -1,12 +1,15 @@
-import 'package:ventes/auth_page/auth_service.dart';
-import 'package:ventes/auth_page/components.dart';
+import 'package:ventes/Auth/auth_service.dart';
+import 'package:ventes/Components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ventes/auth_page/otp_page.dart';
 
 class VerifyPage extends StatefulWidget {
+  final Function switchPage;
+  final Function setemail;
   const VerifyPage({
     super.key,
+    required this.switchPage,
+    required this.setemail,
   });
 
   @override
@@ -56,37 +59,34 @@ class _VerifyPageState extends State<VerifyPage> {
     return false;
   }
 
-  void sendemail() {
+  void sendemail() async {
     if (!goodemail()) {
       return;
     }
-    AlertDialog alert = AlertDialog(
-      content: Row(
-        children: [
-          const CircularProgressIndicator(),
-          Container(
-              margin: const EdgeInsets.only(left: 20),
-              child: const Text("Loading")),
-        ],
-      ),
-    );
-    showDialog(
+    widget.setemail(email);
+
+    showGeneralDialog(
       barrierDismissible: false,
+      useRootNavigator: false,
       context: context,
-      builder: (BuildContext context) {
-        return alert;
+      pageBuilder: (BuildContext context, a, b) {
+        return AlertDialog(
+          content: Row(
+            children: [
+              const CircularProgressIndicator(),
+              Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: const Text("Loading")),
+            ],
+          ),
+        );
       },
     );
+
     sendOtp().then((value) {
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: false).pop(context);
       if (value) {
-        Navigator.push(context,
-            MaterialPageRoute<bool>(builder: (BuildContext context) {
-          // otp page
-          return OTPPage(
-            email: email,
-          );
-        }));
+        widget.switchPage();
       } else {
         setState(() {
           emailError = "Email not found";

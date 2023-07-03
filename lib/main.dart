@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ventes/auth_page/auth_page.dart';
-import 'firebase_options.dart';
+import 'package:ventes/Auth/auth_nav.dart';
+import 'Settings/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,11 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.amber,
-          scaffoldBackgroundColor: Colors.brown[800],
-        ),
-        home: const AuthPage());
+      title: 'Ventes',
+      theme: ThemeData(
+        primarySwatch: Colors.amber,
+        scaffoldBackgroundColor: Colors.brown[800],
+      ),
+      home: const AuthNav(),
+    );
   }
 }

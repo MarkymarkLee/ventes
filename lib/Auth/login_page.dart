@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ventes/auth_page/auth_service.dart';
-import 'package:ventes/auth_page/components.dart';
-import 'package:ventes/users_data.dart';
+import 'package:ventes/Auth/auth_service.dart';
+import 'package:ventes/Components/components.dart';
+import 'package:ventes/Functions/users_data.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({

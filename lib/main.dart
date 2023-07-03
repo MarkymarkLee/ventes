@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ventes/Auth/auth_nav.dart';
+import 'package:ventes/MainApp/main_app_page.dart';
 import 'Settings/firebase_options.dart';
 
 void main() async {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
         scaffoldBackgroundColor: Colors.brown[800],
       ),
-      home: const AuthNav(),
+      home: const MainAppPage(),
     );
   }
 }

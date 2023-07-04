@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ventes/Auth/auth_nav.dart';
 import 'package:ventes/MainApp/main_app_page.dart';
 import 'Settings/firebase_options.dart';
 
@@ -21,7 +20,6 @@ class MyApp extends StatelessWidget {
       title: 'Ventes',
       theme: ThemeData(
         primarySwatch: Colors.amber,
-        scaffoldBackgroundColor: Colors.brown[800],
       ),
       home: const MainAppPage(),
     );

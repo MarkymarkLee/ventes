@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Email_verification/otp_page.dart';
 import 'package:ventes/Email_verification/verify_page.dart';
-import 'package:ventes/MainApp/main_content_page.dart';
+import 'package:ventes/MainApp/main_nav.dart';
 
 // Decides whether to show verification page or main page
 class VerifyNav extends StatefulWidget {
@@ -25,7 +25,7 @@ class _VerifyNavState extends State<VerifyNav> {
           if (snapshot.hasData) {
             var userdata = snapshot.data;
             if (userdata!["isVerified"]) {
-              return const MainContentPage();
+              return const MainNav();
             } else {
               return const OTPNav();
             }

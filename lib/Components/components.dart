@@ -35,30 +35,69 @@ class MyButton extends StatelessWidget {
 class MyTextField extends StatelessWidget {
   final dynamic controller;
   final String hintText;
+  final String fieldName;
 
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
+    required this.fieldName,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
+                child: Text(
+                  fieldName,
+                  style: TextStyle(color: Colors.amber.shade100, fontSize: 16),
+                ),
+              ),
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.amber),
+            TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.amber),
+                  ),
+                  fillColor: Colors.amber[50],
+                  filled: true,
+                  hintText: hintText,
+                  hintStyle: TextStyle(color: Colors.grey[500])),
             ),
-            fillColor: Colors.amber[50],
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[500])),
+          ],
+        ));
+  }
+}
+
+class MySizedBox extends StatelessWidget {
+  final String fieldName;
+
+  const MySizedBox({
+    super.key,
+    required this.fieldName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
+        child: Text(
+          fieldName,
+          style: TextStyle(color: Colors.amber.shade100, fontSize: 16),
+        ),
       ),
     );
   }

@@ -122,21 +122,10 @@ class _OTPPageState extends State<OTPPage> {
               const SizedBox(height: 20),
 
               // otp textfield
-              SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
-                  child: Text(
-                    "Verification Code:",
-                    style:
-                        TextStyle(color: Colors.amber.shade100, fontSize: 16),
-                  ),
-                ),
-              ),
               MyTextField(
                 controller: otpController,
                 hintText: "ex: 123456",
+                fieldName: "Verification Code",
               ),
               if (otpError.isNotEmpty)
                 SizedBox(

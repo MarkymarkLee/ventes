@@ -22,6 +22,8 @@ class LoginPage extends StatelessWidget {
         await UsersData.addUser(user.email!, {
           "email": user.email,
           "isVerified": false,
+          "schoolEmail": "",
+          "profiles": <String, String>{},
         });
       }
     });

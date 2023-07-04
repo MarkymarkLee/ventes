@@ -129,21 +129,11 @@ class _VerifyPageState extends State<VerifyPage> {
               const SizedBox(height: 20),
 
               // email
-              SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
-                  child: Text(
-                    "學校信箱 Email (@*ntu.edu.tw): ",
-                    style:
-                        TextStyle(color: Colors.amber.shade100, fontSize: 16),
-                  ),
-                ),
-              ),
+              
               MyTextField(
                 controller: emailController,
                 hintText: "ex: b11111111@ntu.edu.tw",
+                fieldName: "學校信箱 Email (@*ntu.edu.tw): "
               ),
               if (emailError.isNotEmpty)
                 SizedBox(

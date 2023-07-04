@@ -26,6 +26,14 @@ class _VerifyPageState extends State<VerifyPage> {
 
   bool goodemail() {
     try {
+      // check if email is empty
+      if (emailController.text.trim().isEmpty) {
+        setState(() {
+          emailError = "Email cannot be empty";
+        });
+        return false;
+      }
+      // check if email is valid (school email)
       const availDomain = ["ntu.edu.tw", "g.ntu.edu.tw", "csie.ntu.edu.tw"];
       email = emailController.text.trim();
       var t = email.split('@');
@@ -107,7 +115,7 @@ class _VerifyPageState extends State<VerifyPage> {
 
               // sorry text
               Text(
-                "Sorry.",
+                "Sorry!",
                 style: TextStyle(color: Colors.amber.shade100, fontSize: 40),
               ),
               const SizedBox(height: 20),
@@ -116,6 +124,7 @@ class _VerifyPageState extends State<VerifyPage> {
               Text(
                 "This app is currently only available for NTU students.",
                 style: TextStyle(color: Colors.amber.shade100, fontSize: 25),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
 

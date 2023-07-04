@@ -30,9 +30,12 @@ class _OTPPageState extends State<OTPPage> {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (resendSeconds != 1) {
-        setState(() {
-          resendSeconds--;
-        });
+        // check if this component is mounted
+        if (mounted) {
+          setState(() {
+            resendSeconds--;
+          });
+        }
       } else {
         setState(() {
           canResend = true;
@@ -114,6 +117,7 @@ class _OTPPageState extends State<OTPPage> {
               Text(
                 "An email has been sent to your email address. Please enter the verification code here.",
                 style: TextStyle(color: Colors.amber.shade100, fontSize: 25),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
 

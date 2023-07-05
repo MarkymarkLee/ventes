@@ -37,7 +37,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
     };
     debugPrint(profile.toString());
     String email = AuthService().getCurrentUserEmail();
-    UsersData.addUserProfile(email, profile);
+    UsersData.updateUser(email, profile);
     return;
   }
 

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ventes/Functions/users_data.dart';
 
 class SetProfilePage extends StatefulWidget {
-  const SetProfilePage({Key? key}) : super(key: key);
+  final Function reload;
+  const SetProfilePage({Key? key, required this.reload}) : super(key: key);
 
   @override
   _SetProfilePageState createState() => _SetProfilePageState();
@@ -17,7 +18,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
 
   String _selectedGender = "male";
 
-  void onFinish() {
+  void onFinish() async {
     String name = _nameController.text.trim();
     String nickname = _nicknameController.text.trim();
     if (name.isEmpty) {
@@ -37,7 +38,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
     };
     debugPrint(profile.toString());
     String email = AuthService().getCurrentUserEmail();
-    UsersData.updateUser(email, profile);
+    await UsersData.updateUser(email, profile);
+    widget.reload();
     return;
   }
 

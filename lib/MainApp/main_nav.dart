@@ -13,27 +13,34 @@ class MainNav extends StatefulWidget {
 }
 
 class _MainNavState extends State<MainNav> {
+  void reload() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
+    return FutureBuilder(
+        future: FirebaseFirestore.instance
             .collection('users')
             .doc(AuthService().getCurrentUserEmail())
-            .snapshots(),
+            .get(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            var userdata = snapshot.data;
-            if (userdata == null) {
+            if (snapshot.data == null) {
               return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
                 ),
               );
             }
-            if (!userdata["profiles"].isEmpty) {
+            Map<String, dynamic>? userdata = snapshot.data!.data();
+
+            if (userdata!.containsKey("name")) {
               return const MainAppPage();
             } else {
-              return const SetProfilePage();
+              return SetProfilePage(
+                reload: reload,
+              );
             }
           } else {
             return const Scaffold(

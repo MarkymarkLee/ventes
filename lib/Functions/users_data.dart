@@ -9,10 +9,6 @@ abstract class UsersData {
     return users.doc(email).set(data);
   }
 
-  static Future<void> setUser(String email, Map<String, dynamic> data) async {
-    await users.doc(email).set(data);
-  }
-
   static Future<void> updateUser(
       String email, Map<String, dynamic> data) async {
     await users.doc(email).update(data);

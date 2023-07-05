@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Functions/events_data.dart';
-import 'package:ventes/Data/event_data.dart';
+import 'package:ventes/data.dart';
 import 'package:ventes/MainApp/Search/components.dart';
 import 'package:ventes/MainApp/Search/event_dialog.dart';
 

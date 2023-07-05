@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ventes/Data/event_data.dart';
+import 'package:ventes/data.dart';
 
 class EventCard extends StatefulWidget {
   final Event event;

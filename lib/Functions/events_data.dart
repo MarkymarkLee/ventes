@@ -1,4 +1,4 @@
-import 'package:ventes/Data/event_data.dart';
+import 'package:ventes/data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class EventsData {

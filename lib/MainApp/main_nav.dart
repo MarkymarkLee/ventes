@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ventes/MainApp/main_content_page.dart';
+import 'package:ventes/MainApp/main_app_page.dart';
 import 'package:ventes/MainApp/set_profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ventes/Auth/auth_service.dart';
@@ -23,7 +23,7 @@ class _MainNavState extends State<MainNav> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var userdata = snapshot.data;
-            if(userdata == null){
+            if (userdata == null) {
               return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
@@ -31,7 +31,7 @@ class _MainNavState extends State<MainNav> {
               );
             }
             if (!userdata["profiles"].isEmpty) {
-              return const MainContentPage();
+              return const MainAppPage();
             } else {
               return const SetProfilePage();
             }

@@ -27,18 +27,20 @@ class _MainAppPageState extends State<MainAppPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: pages[selectedIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          BottomNavigationBarItem(icon: Icon(Icons.message), label: "Chat"),
-        ],
-        currentIndex: selectedIndex,
-        onTap: onItemTapped,
+    return MaterialApp(
+      home: Scaffold(
+        body: SafeArea(
+          child: pages[selectedIndex],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+            BottomNavigationBarItem(icon: Icon(Icons.message), label: "Chat"),
+          ],
+          currentIndex: selectedIndex,
+          onTap: onItemTapped,
+        ),
       ),
     );
   }

@@ -14,12 +14,16 @@ class LoginPage extends StatelessWidget {
     await AuthService().signInWithGoogle();
 
     final user = FirebaseAuth.instance.currentUser;
-
-    UsersData.checkIfUserExists(user!.email!).then((value) async {
+    if (user == null) {
+      return;
+    }
+    UsersData.checkIfUserExists(user.email!).then((value) async {
       if (!value) {
         await UsersData.addUser(user.email!, {
           "email": user.email,
           "isVerified": false,
+          "schoolEmail": "",
+          "profiles": <String, Map<String, String>>{},
         });
       }
     });

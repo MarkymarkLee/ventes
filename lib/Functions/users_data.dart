@@ -14,6 +14,13 @@ abstract class UsersData {
     await users.doc(email).update(data);
   }
 
+  static Future<void> addUserProfile(
+      String email, Map<String, String> data) async {
+    await users.doc(email).update({
+      "profiles": data,
+    });
+  }
+
   static Future<bool> checkIfUserExists(String email) async {
     try {
       // Get reference to Firestore collection

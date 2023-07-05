@@ -6,7 +6,7 @@ import 'package:ventes/Functions/users_data.dart';
 import '../Components/components.dart';
 
 // ignore: constant_identifier_names
-const int RESENDSECONDS = 60;
+const int RESENDSECONDS = 30;
 
 class OTPPage extends StatefulWidget {
   final String email;
@@ -30,9 +30,12 @@ class _OTPPageState extends State<OTPPage> {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (resendSeconds != 1) {
-        setState(() {
-          resendSeconds--;
-        });
+        // check if this component is mounted
+        if (mounted) {
+          setState(() {
+            resendSeconds--;
+          });
+        }
       } else {
         setState(() {
           canResend = true;
@@ -50,6 +53,11 @@ class _OTPPageState extends State<OTPPage> {
         canResend = false;
       });
     }
+  }
+
+  void onRetype() {
+    // back to verify page
+    widget.switchPage();
   }
 
   Future<bool> verifyOtp() async {
@@ -89,9 +97,6 @@ class _OTPPageState extends State<OTPPage> {
       if (value) {
         await UsersData.updateUser(FirebaseAuth.instance.currentUser!.email!,
             {"isVerified": true, "schoolEmail": widget.email});
-        if (context.mounted) {
-          Navigator.of(context, rootNavigator: false).pop();
-        }
       } else {
         Navigator.of(context, rootNavigator: false).pop();
         setState(() {
@@ -106,33 +111,23 @@ class _OTPPageState extends State<OTPPage> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: SafeArea(
-          child: Column(
-            children: [
+          child: SingleChildScrollView(
+            child: Column(children: [
               const SizedBox(height: 60),
 
               // explanation text
               Text(
                 "An email has been sent to your email address. Please enter the verification code here.",
                 style: TextStyle(color: Colors.amber.shade100, fontSize: 25),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
 
               // otp textfield
-              SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
-                  child: Text(
-                    "Verification Code:",
-                    style:
-                        TextStyle(color: Colors.amber.shade100, fontSize: 16),
-                  ),
-                ),
-              ),
               MyTextField(
                 controller: otpController,
                 hintText: "ex: 123456",
+                fieldName: "Verification Code",
               ),
               if (otpError.isNotEmpty)
                 SizedBox(
@@ -143,7 +138,7 @@ class _OTPPageState extends State<OTPPage> {
                     child: Text(
                       otpError,
                       style:
-                          TextStyle(color: Colors.red.shade500, fontSize: 12),
+                          TextStyle(color: Colors.red.shade500, fontSize: 16),
                     ),
                   ),
                 )
@@ -167,7 +162,9 @@ class _OTPPageState extends State<OTPPage> {
                 buttonText: "Verify",
                 onTap: verify,
               ),
-            ],
+              const SizedBox(height: 40),
+              MyButton(onTap: onRetype, buttonText: "Re-type SchoolEmail")
+            ]),
           ),
         ));
   }

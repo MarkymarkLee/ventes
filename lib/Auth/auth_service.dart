@@ -42,6 +42,10 @@ class AuthService {
   }
 
   getCurrentUserEmail() {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return null;
+    }
     return FirebaseAuth.instance.currentUser!.email;
   }
+
 }

@@ -24,7 +24,14 @@ class _VerifyNavState extends State<VerifyNav> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var userdata = snapshot.data;
-            if (userdata!["isVerified"]) {
+            if(userdata == null){
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+            if (userdata["isVerified"]) {
               return const MainNav();
             } else {
               return const OTPNav();

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ventes/MainApp/main_content_page.dart';
 import 'package:ventes/MainApp/set_profile_page.dart';
@@ -22,11 +21,26 @@ class _MainNavState extends State<MainNav> {
             .doc(AuthService().getCurrentUserEmail())
             .snapshots(),
         builder: (context, snapshot) {
-          var userdata = snapshot.data;
-          if (!userdata!["profiles"].isEmpty) {
-            return const MainContentPage();
+          if (snapshot.hasData) {
+            var userdata = snapshot.data;
+            if(userdata == null){
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+            if (!userdata["profiles"].isEmpty) {
+              return const MainContentPage();
+            } else {
+              return const SetProfilePage();
+            }
           } else {
-            return const SetProfilePage();
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           }
         });
   }

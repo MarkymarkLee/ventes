@@ -6,7 +6,7 @@ import 'package:ventes/Functions/users_data.dart';
 import '../Components/components.dart';
 
 // ignore: constant_identifier_names
-const int RESENDSECONDS = 60;
+const int RESENDSECONDS = 30;
 
 class OTPPage extends StatefulWidget {
   final String email;
@@ -55,6 +55,11 @@ class _OTPPageState extends State<OTPPage> {
     }
   }
 
+  void onRetype() {
+    // back to verify page
+    widget.switchPage();
+  }
+
   Future<bool> verifyOtp() async {
     String otp = otpController.text.trim();
     final response = await http.get(Uri.parse(
@@ -92,9 +97,6 @@ class _OTPPageState extends State<OTPPage> {
       if (value) {
         await UsersData.updateUser(FirebaseAuth.instance.currentUser!.email!,
             {"isVerified": true, "schoolEmail": widget.email});
-        if (context.mounted) {
-          Navigator.of(context, rootNavigator: false).pop();
-        }
       } else {
         Navigator.of(context, rootNavigator: false).pop();
         setState(() {
@@ -136,7 +138,7 @@ class _OTPPageState extends State<OTPPage> {
                     child: Text(
                       otpError,
                       style:
-                          TextStyle(color: Colors.red.shade500, fontSize: 12),
+                          TextStyle(color: Colors.red.shade500, fontSize: 16),
                     ),
                   ),
                 )
@@ -160,6 +162,8 @@ class _OTPPageState extends State<OTPPage> {
                 buttonText: "Verify",
                 onTap: verify,
               ),
+              const SizedBox(height: 40),
+              MyButton(onTap: onRetype, buttonText: "Re-type SchoolEmail")
             ],
           ),
         ));

@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:ventes/Functions/users_data.dart';
 
 class SetProfilePage extends StatefulWidget {
   const SetProfilePage({Key? key}) : super(key: key);
@@ -11,14 +12,39 @@ class SetProfilePage extends StatefulWidget {
 
 class _SetProfilePageState extends State<SetProfilePage> {
   final _nameController = TextEditingController();
+  String nameError = "";
   final _nicknameController = TextEditingController();
-  String? _selectedGender;
+
+  String _selectedGender = "male";
 
   void onFinish() {
+    String name = _nameController.text.trim();
+    String nickname = _nicknameController.text.trim();
+    if (name.isEmpty) {
+      setState(() {
+        nameError = "Name cannot be empty";
+      });
+      return;
+    }
+    if (nickname.isEmpty) {
+      nickname = name;
+    }
+
+    Map<String, String>? profile = {
+      "name": name,
+      "nickname": nickname,
+      "gender": _selectedGender,
+    };
+    debugPrint(profile.toString());
+    String email = AuthService().getCurrentUserEmail();
+    UsersData.addUserProfile(email, profile);
     return;
   }
 
   void onRadioChanged(String? index) {
+    if (index == null) {
+      return;
+    }
     setState(() {
       _selectedGender = index;
     });
@@ -46,13 +72,26 @@ class _SetProfilePageState extends State<SetProfilePage> {
         MyTextField(
           controller: _nameController,
           hintText: "",
-          fieldName: "Your name: ",
+          fieldName: "Your name: (Required)",
         ),
-        const SizedBox(height: 20),
+        if (nameError.isNotEmpty)
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 3),
+              child: Text(
+                nameError,
+                style: TextStyle(color: Colors.red.shade500, fontSize: 14),
+              ),
+            ),
+          )
+        else
+          const SizedBox(height: 20),
         MyTextField(
           controller: _nicknameController,
           hintText: "",
-          fieldName: "Your nickname: ",
+          fieldName: "Your nickname: (Default: Your name)",
         ),
         const SizedBox(height: 20),
         const Padding(

@@ -55,8 +55,8 @@ class _SetProfilePageState extends State<SetProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-            child: Column(
-      children: [
+            child: SingleChildScrollView(
+      child: Column(children: [
         Text(
           "One Last Step!",
           style: TextStyle(color: Colors.amber.shade100, fontSize: 40),
@@ -162,7 +162,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
           buttonText: "Finish",
           onTap: onFinish,
         )
-      ],
+      ]),
     )));
   }
 }

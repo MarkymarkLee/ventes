@@ -111,8 +111,8 @@ class _OTPPageState extends State<OTPPage> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: SafeArea(
-          child: Column(
-            children: [
+          child: SingleChildScrollView(
+            child: Column(children: [
               const SizedBox(height: 60),
 
               // explanation text
@@ -164,7 +164,7 @@ class _OTPPageState extends State<OTPPage> {
               ),
               const SizedBox(height: 40),
               MyButton(onTap: onRetype, buttonText: "Re-type SchoolEmail")
-            ],
+            ]),
           ),
         ));
   }

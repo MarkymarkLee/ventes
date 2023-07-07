@@ -95,8 +95,11 @@ class _OTPPageState extends State<OTPPage> {
     );
     verifyOtp().then((value) async {
       if (value) {
-        await UsersData.updateUser(FirebaseAuth.instance.currentUser!.email!,
-            {"isVerified": true, "schoolEmail": widget.email});
+        await UsersData.updateUser(FirebaseAuth.instance.currentUser!.email!, {
+          "isVerified": true,
+          "schoolEmail": widget.email,
+          "schoolID": widget.email.split("@")[0],
+        });
       } else {
         Navigator.of(context, rootNavigator: false).pop();
         setState(() {

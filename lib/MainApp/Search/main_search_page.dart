@@ -13,6 +13,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   Future<List<Event>> allEvents = EventsData.getAllEvents();
+  String sortMethod = "time↑";
 
   onTap(Event event) {
     showDialog(
@@ -99,13 +100,27 @@ class _SearchPageState extends State<SearchPage> {
                 child: Text("Filter"),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text("Sort By"),
-              ),
+              child: Text("Sort by:"),
             ),
+            Padding(
+                padding: EdgeInsets.all(8.0),
+                child: DropdownButton<String>(
+                  value: sortMethod,
+                  items:
+                      <String>["time↑", "time↓", "likes"].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      sortMethod = newValue!;
+                    });
+                  },
+                )),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(8.0),

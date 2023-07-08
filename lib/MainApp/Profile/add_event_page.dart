@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ventes/Components/components.dart';
 import 'package:ventes/data.dart';
 
 Event createdEvent = Event(
@@ -20,15 +21,23 @@ class AddEventPage extends StatefulWidget {
 }
 
 class _AddEventPageState extends State<AddEventPage> {
+  void back() {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-          child: Column(
+    return Scaffold(
+        body: SafeArea(
+            child: Center(
+      child: (Column(
         children: [
-          Text("Add Event Page"),
+          Expanded(child: Container()),
+          const Text("Add Event"),
+          MyButton(onTap: back, buttonText: "Go back"),
+          Expanded(child: Container()),
         ],
       )),
-    );
+    )));
   }
 }

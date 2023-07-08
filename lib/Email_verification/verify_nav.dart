@@ -24,7 +24,8 @@ class _VerifyNavState extends State<VerifyNav> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var userdata = snapshot.data;
-            if(userdata == null){
+            debugPrint(userdata.toString());
+            if (userdata == null) {
               return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),

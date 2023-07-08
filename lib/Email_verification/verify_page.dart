@@ -133,24 +133,12 @@ class _VerifyPageState extends State<VerifyPage> {
               MyTextField(
                 controller: emailController,
                 hintText: "ex: b11111111@ntu.edu.tw",
-                fieldName: "學校信箱 Email (@*ntu.edu.tw): "
+                errorText: emailError,
+                fieldName: "學校信箱 Email (@*ntu.edu.tw): ",
+                fieldNameColor: Colors.amber.shade100,
+                textfieldBorderColor: Colors.white,
               ),
-              if (emailError.isNotEmpty)
-                SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 3),
-                    child: Text(
-                      emailError,
-                      style:
-                          TextStyle(color: Colors.red.shade500, fontSize: 12),
-                    ),
-                  ),
-                )
-              else
-                const SizedBox(height: 20),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
 
               // register
               MyButton(

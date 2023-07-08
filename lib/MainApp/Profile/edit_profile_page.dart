@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Components/components.dart';
+import 'package:ventes/Components/loading_components.dart';
 import 'package:ventes/Functions/users_data.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -28,18 +29,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   nickname: userdata["nickname"],
                   selectedGender: userdata["gender"]);
             } else {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
+              return const Loading();
             }
           } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return const Loading();
           }
         });
   }

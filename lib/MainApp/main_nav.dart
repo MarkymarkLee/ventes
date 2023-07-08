@@ -3,6 +3,7 @@ import 'package:ventes/MainApp/main_app_page.dart';
 import 'package:ventes/MainApp/set_profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ventes/Auth/auth_service.dart';
+import 'package:ventes/Components/loading_components.dart';
 
 // Decides whether to show profile setting page or main page
 class MainNav extends StatefulWidget {
@@ -27,11 +28,7 @@ class _MainNavState extends State<MainNav> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null) {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
+              return const Loading();
             }
             Map<String, dynamic>? userdata = snapshot.data!.data();
 
@@ -44,11 +41,7 @@ class _MainNavState extends State<MainNav> {
               );
             }
           } else {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return const Loading();
           }
         });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ventes/MainApp/Chat/main_chat_page.dart';
 import 'package:ventes/MainApp/Profile/main_profile_page.dart';
 import 'package:ventes/MainApp/Search/main_search_page.dart';
+import 'package:ventes/MainApp/Setting/main_setting_page.dart';
 
 class MainAppPage extends StatefulWidget {
   const MainAppPage({super.key});
@@ -23,24 +24,26 @@ class _MainAppPageState extends State<MainAppPage> {
     SearchPage(),
     ProfilePage(),
     ChatPage(),
+    SettingPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: pages[selectedIndex],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-            BottomNavigationBarItem(icon: Icon(Icons.message), label: "Chat"),
-          ],
-          currentIndex: selectedIndex,
-          onTap: onItemTapped,
-        ),
+    return Scaffold(
+      body: SafeArea(
+        child: pages[selectedIndex],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: "Chat"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: "Settings"),
+        ],
+        currentIndex: selectedIndex,
+        onTap: onItemTapped,
       ),
     );
   }

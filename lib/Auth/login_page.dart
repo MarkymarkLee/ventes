@@ -23,6 +23,7 @@ class LoginPage extends StatelessWidget {
           "email": user.email,
           "isVerified": false,
           "schoolEmail": "",
+          "isDarkMode": false,
         });
       }
     });

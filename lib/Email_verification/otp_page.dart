@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ventes/Functions/users_data.dart';
-import '../Components/components.dart';
+import 'package:ventes/Components/components.dart';
+import 'package:ventes/Components/loading_components.dart';
 
 // ignore: constant_identifier_names
 const int RESENDSECONDS = 30;
@@ -81,16 +82,7 @@ class _OTPPageState extends State<OTPPage> {
       useRootNavigator: false,
       context: context,
       pageBuilder: (BuildContext context, a, b) {
-        return AlertDialog(
-          content: Row(
-            children: [
-              const CircularProgressIndicator(),
-              Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  child: const Text("Loading")),
-            ],
-          ),
-        );
+        return const AlertLoading();
       },
     );
     verifyOtp().then((value) async {
@@ -135,7 +127,7 @@ class _OTPPageState extends State<OTPPage> {
                 fieldNameColor: Colors.amber.shade100,
                 textfieldBorderColor: Colors.white,
               ),
-              
+
               const SizedBox(height: 20),
 
               // resend button

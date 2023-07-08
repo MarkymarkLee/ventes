@@ -1,5 +1,6 @@
 import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Components/components.dart';
+import 'package:ventes/Components/loading_components.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -78,16 +79,7 @@ class _VerifyPageState extends State<VerifyPage> {
       useRootNavigator: false,
       context: context,
       pageBuilder: (BuildContext context, a, b) {
-        return AlertDialog(
-          content: Row(
-            children: [
-              const CircularProgressIndicator(),
-              Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  child: const Text("Loading")),
-            ],
-          ),
-        );
+        return const AlertLoading();
       },
     );
 

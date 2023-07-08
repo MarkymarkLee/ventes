@@ -3,6 +3,7 @@ import 'package:ventes/Functions/events_data.dart';
 import 'package:ventes/data.dart';
 import 'package:ventes/MainApp/Search/components.dart';
 import 'package:ventes/MainApp/Search/event_dialog.dart';
+import 'package:ventes/Components/loading_components.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -142,7 +143,7 @@ class _SearchPageState extends State<SearchPage> {
               future: allEvents,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Loading();
                 }
 
                 List<Event> events = snapshot.data as List<Event>;
@@ -152,7 +153,10 @@ class _SearchPageState extends State<SearchPage> {
                   return const Center(child: Text("No events found"));
                 }
 
-                return ListView.builder(
+                return Scrollbar(
+                  thickness: 10,
+                  radius: const Radius.circular(5.0),
+                    child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: events.length,
                   itemBuilder: (context, index) {
@@ -161,7 +165,10 @@ class _SearchPageState extends State<SearchPage> {
                       onTap: onTap,
                     );
                   },
-                );
+                  separatorBuilder: (context, index) {
+                    return const Divider();
+                  },
+                ));
               }),
         )
       ],

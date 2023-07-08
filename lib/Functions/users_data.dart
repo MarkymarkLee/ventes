@@ -71,4 +71,11 @@ abstract class UsersData {
     await UsersData.updateUser(email, profile);
     return nicknameError;
   }
+
+  static Future<void> setDarkMode(String email, bool isDarkMode) async {
+    Map<String, bool>? darkMode = {
+      "isDarkMode": isDarkMode,
+    };
+    await UsersData.updateUser(email, darkMode);
+  }
 }

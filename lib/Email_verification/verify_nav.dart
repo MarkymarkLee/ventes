@@ -4,6 +4,7 @@ import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Email_verification/otp_page.dart';
 import 'package:ventes/Email_verification/verify_page.dart';
 import 'package:ventes/MainApp/main_nav.dart';
+import 'package:ventes/Components/loading_components.dart';
 
 // Decides whether to show verification page or main page
 class VerifyNav extends StatefulWidget {
@@ -26,11 +27,7 @@ class _VerifyNavState extends State<VerifyNav> {
             var userdata = snapshot.data;
             debugPrint(userdata.toString());
             if (userdata == null) {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
+              return const Loading();
             }
             if (userdata["isVerified"]) {
               return const MainNav();
@@ -38,11 +35,7 @@ class _VerifyNavState extends State<VerifyNav> {
               return const OTPNav();
             }
           }
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const Loading();
         });
   }
 }

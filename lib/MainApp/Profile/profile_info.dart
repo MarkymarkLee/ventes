@@ -4,6 +4,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:ventes/Auth/auth_service.dart';
 // import 'package:ventes/Functions/users_data.dart';
 import 'package:ventes/MainApp/Profile/edit_profile_page.dart';
+import 'package:ventes/Components/loading_components.dart';
 
 class ProfileInfo extends StatelessWidget {
   // final VoidCallback editProfile;
@@ -80,14 +81,10 @@ class ProfileInfo extends StatelessWidget {
                 ),
               );
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Loading();
             }
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Loading();
           }
         });
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/data.dart';
+import 'dart:math' as math;
 
 class EventCard extends StatefulWidget {
   final Event event;
@@ -18,6 +19,7 @@ class _EventCardState extends State<EventCard> {
         widget.onTap(widget.event);
       },
       child: Card(
+        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
         child: Column(
           children: [
             Text(widget.event.title),

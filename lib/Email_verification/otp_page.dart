@@ -130,24 +130,13 @@ class _OTPPageState extends State<OTPPage> {
               MyTextField(
                 controller: otpController,
                 hintText: "ex: 123456",
+                errorText: otpError,
                 fieldName: "Verification Code",
+                fieldNameColor: Colors.amber.shade100,
+                textfieldBorderColor: Colors.white,
               ),
-              if (otpError.isNotEmpty)
-                SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 3),
-                    child: Text(
-                      otpError,
-                      style:
-                          TextStyle(color: Colors.red.shade500, fontSize: 16),
-                    ),
-                  ),
-                )
-              else
-                const SizedBox(height: 20),
-              const SizedBox(height: 40),
+              
+              const SizedBox(height: 20),
 
               // resend button
               canResend

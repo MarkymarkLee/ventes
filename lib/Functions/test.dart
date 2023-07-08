@@ -2,13 +2,14 @@ import 'package:ventes/data.dart';
 import 'package:ventes/Functions/events_data.dart';
 import 'dart:math';
 
-abstract class randomEvent {
+abstract class RandomEvent {
   static String getRandomString(int length) {
-    const _chars =
+    const allChars =
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    Random _rnd = Random();
+    // ignore: non_constant_identifier_names
+    Random RNG = Random();
     return String.fromCharCodes(Iterable.generate(
-        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+        length, (_) => allChars.codeUnitAt(RNG.nextInt(allChars.length))));
   }
 
   static void addEvent() {

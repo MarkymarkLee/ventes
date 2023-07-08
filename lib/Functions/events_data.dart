@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ventes/data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -21,7 +23,7 @@ abstract class EventsData {
           var event = Event.fromJson(doc.data());
           eventsList.add(event);
         } catch (e) {
-          print(e);
+          log(e.toString());
         }
       }
     });

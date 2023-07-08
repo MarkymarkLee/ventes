@@ -12,34 +12,23 @@ class SetProfilePage extends StatefulWidget {
 }
 
 class _SetProfilePageState extends State<SetProfilePage> {
-  final _nameController = TextEditingController();
-  String nameError = "";
+  String nicknameError = "";
   final _nicknameController = TextEditingController();
 
   String _selectedGender = "male";
 
   void onFinish() async {
-    String name = _nameController.text.trim();
     String nickname = _nicknameController.text.trim();
-    if (name.isEmpty) {
-      setState(() {
-        nameError = "Name cannot be empty";
-      });
+    String error = await UsersData.updateProfile(
+        AuthService().getCurrentUserEmail(), nickname, _selectedGender);
+    if (error == "") {
+      widget.reload();
       return;
     }
-    if (nickname.isEmpty) {
-      nickname = name;
-    }
 
-    Map<String, String>? profile = {
-      "name": name,
-      "nickname": nickname,
-      "gender": _selectedGender,
-    };
-    debugPrint(profile.toString());
-    String email = AuthService().getCurrentUserEmail();
-    await UsersData.updateUser(email, profile);
-    widget.reload();
+    setState(() {
+      nicknameError = error;
+    });
     return;
   }
 
@@ -72,28 +61,12 @@ class _SetProfilePageState extends State<SetProfilePage> {
         ),
         const SizedBox(height: 20),
         MyTextField(
-          controller: _nameController,
-          hintText: "",
-          fieldName: "Your name: (Required)",
-        ),
-        if (nameError.isNotEmpty)
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 3),
-              child: Text(
-                nameError,
-                style: TextStyle(color: Colors.red.shade500, fontSize: 14),
-              ),
-            ),
-          )
-        else
-          const SizedBox(height: 20),
-        MyTextField(
           controller: _nicknameController,
           hintText: "",
-          fieldName: "Your nickname: (Default: Your name)",
+          errorText: nicknameError,
+          fieldName: "Your nickname: (Required)",
+          fieldNameColor: Colors.amber.shade100,
+          textfieldBorderColor: Colors.white,
         ),
         const SizedBox(height: 20),
         const Padding(
@@ -105,56 +78,29 @@ class _SetProfilePageState extends State<SetProfilePage> {
           children: [
             Expanded(
               flex: 1,
-              child: ListTileTheme(
-                horizontalTitleGap: 8,
-                child: RadioListTile(
-                  visualDensity: const VisualDensity(horizontal: -4.0),
-                  // contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    'male',
-                    style:
-                        TextStyle(color: Colors.amber.shade100, fontSize: 17),
-                  ),
-                  value: "male",
-                  groupValue: _selectedGender,
-                  onChanged: onRadioChanged,
-                ),
+              child: MyRadioButtons(
+                fieldName: "male",
+                onRadioChanged: onRadioChanged,
+                selectedLabel: _selectedGender,
+                labelColor: Colors.amber.shade100,
               ),
             ),
             Expanded(
               flex: 1,
-              child: ListTileTheme(
-                horizontalTitleGap: 8,
-                child: RadioListTile(
-                  visualDensity: const VisualDensity(horizontal: -4.0),
-                  // contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    'female',
-                    style:
-                        TextStyle(color: Colors.amber.shade100, fontSize: 17),
-                  ),
-                  value: "female",
-                  groupValue: _selectedGender,
-                  onChanged: onRadioChanged,
-                ),
+              child: MyRadioButtons(
+                fieldName: "female",
+                onRadioChanged: onRadioChanged,
+                selectedLabel: _selectedGender,
+                labelColor: Colors.amber.shade100,
               ),
             ),
             Expanded(
               flex: 1,
-              child: ListTileTheme(
-                horizontalTitleGap: 8,
-                child: RadioListTile(
-                  visualDensity: const VisualDensity(horizontal: -4.0),
-                  // contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    'others',
-                    style:
-                        TextStyle(color: Colors.amber.shade100, fontSize: 17),
-                  ),
-                  value: "others",
-                  groupValue: _selectedGender,
-                  onChanged: onRadioChanged,
-                ),
+              child: MyRadioButtons(
+                fieldName: "others",
+                onRadioChanged: onRadioChanged,
+                selectedLabel: _selectedGender,
+                labelColor: Colors.amber.shade100,
               ),
             ),
           ],

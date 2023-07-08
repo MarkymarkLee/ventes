@@ -23,7 +23,6 @@ class LoginPage extends StatelessWidget {
           "email": user.email,
           "isVerified": false,
           "schoolEmail": "",
-          "profiles": <String, Map<String, String>>{},
         });
       }
     });

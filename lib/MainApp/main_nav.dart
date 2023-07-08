@@ -35,7 +35,8 @@ class _MainNavState extends State<MainNav> {
             }
             Map<String, dynamic>? userdata = snapshot.data!.data();
 
-            if (userdata!.containsKey("name")) {
+            if (userdata!.containsKey("nickname") &&
+                userdata.containsKey("gender")) {
               return const MainAppPage();
             } else {
               return SetProfilePage(

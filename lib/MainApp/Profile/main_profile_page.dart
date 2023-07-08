@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Functions/test.dart';
+import 'package:ventes/MainApp/Profile/add_event_page.dart';
+import 'package:ventes/MainApp/Profile/profile_info.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,23 +14,34 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         children: [
-          Expanded(child: Container()),
+          // Expanded(child: Container()),
+          const ProfileInfo(),
           ElevatedButton(
               onPressed: () {
-                randomEvent.addEvent();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddEventPage()),
+                );
+                RandomEvent.addEvent();
               },
               child: const Text("Add Event")),
           ElevatedButton(
               onPressed: () {
-                randomEvent.clearEvents();
+                RandomEvent.clearEvents();
               },
               child: const Text("Delete all Events")),
-          Expanded(child: Container()),
+          ElevatedButton(
+              onPressed: () {
+                AuthService().signOut();
+              },
+              child: const Text("Logout")),
+          // Expanded(child: Container()),
         ],
       ),
-    );
+    ));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/data.dart';
-import 'dart:math' as math;
 
 class EventCard extends StatefulWidget {
   final Event event;

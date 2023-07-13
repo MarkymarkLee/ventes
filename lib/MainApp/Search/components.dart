@@ -19,7 +19,7 @@ class _EventCardState extends State<EventCard> {
         widget.onTap(widget.event);
       },
       child: Card(
-        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+        // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
         child: Column(
           children: [
             Text(widget.event.title),

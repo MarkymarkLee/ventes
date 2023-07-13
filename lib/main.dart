@@ -41,7 +41,6 @@ class _MyAppState extends State<MyApp> {
       return themeChangeProvider;
     }, child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget? child) {
-      debugPrint(themeChangeProvider.darkTheme.toString());
       return MaterialApp(
         title: 'Ventes',
         theme: Styles.themeData(themeChangeProvider.darkTheme, context),

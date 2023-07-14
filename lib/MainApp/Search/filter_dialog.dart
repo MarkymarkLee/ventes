@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Components/components.dart';
+import 'package:collection/collection.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key});
@@ -9,25 +10,36 @@ class FilterDialog extends StatefulWidget {
 }
 
 class _FilterDialogState extends State<FilterDialog> {
-  final _tagController = TextEditingController();
+  List<TextEditingController> _tagControllers =
+      List<TextEditingController>.generate(
+          0, (index) => TextEditingController());
+
   final _eventNameController = TextEditingController();
   static const List<String> minLikes = ["0", "10", "50", "100", "500", "1000"];
   String selectedMinLikes = "0";
 
+  void onRemoveTag(int index) {
+    setState(() {
+      _tagControllers.removeAt(index);
+    });
+  }
+
   void onResetAll() {
     setState(() {
-      _tagController.clear();
+      _tagControllers = List<TextEditingController>.generate(
+          0, (index) => TextEditingController());
       _eventNameController.clear();
       selectedMinLikes = "0";
     });
   }
 
   void onApplyAll() {
-    String tag = _tagController.text;
+    List<String> tags =
+        _tagControllers.map((tagController) => tagController.text).toList();
     String eventName = _eventNameController.text;
 
     Map finalFilter = {
-      "tag": tag,
+      "tags": tags,
       "eventName": eventName,
       "minLikes": int.parse(selectedMinLikes)
     };
@@ -59,13 +71,54 @@ class _FilterDialogState extends State<FilterDialog> {
                 fieldName: "Event name",
                 fieldNameColor: Colors.amber.shade100),
             const SizedBox(height: 20),
-            MyTextField(
-                controller: _tagController,
-                hintText: "",
-                errorText: "",
-                fieldName: "Tags",
-                fieldNameColor: Colors.amber.shade100),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                const Expanded(child: MyFieldnameBox(fieldName: "Tags")),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        debugPrint("add tag");
+                        _tagControllers.add(TextEditingController());
+                      });
+                    },
+                    icon: Icon(Icons.add_circle_outline,
+                        color: Colors.amber.shade200)),
+              ]),
+            ),
             const SizedBox(height: 20),
+            _tagControllers.isNotEmpty
+                ? Column(
+                    children: _tagControllers.mapIndexed((idx, tagController) {
+                    return Column(children: [
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  onRemoveTag(idx);
+                                },
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Colors.amber.shade200,
+                                ),
+                              ),
+                              Expanded(
+                                child: MyTextField(
+                                  controller: tagController,
+                                  hintText: "",
+                                  errorText: "",
+                                  fieldNameColor: Colors.amber.shade100,
+                                ),
+                              )
+                            ],
+                          )),
+                      const SizedBox(height: 20),
+                    ]);
+                  }).toList())
+                : Container(),
             Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 25.0, vertical: 10.0),

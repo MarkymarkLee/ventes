@@ -49,27 +49,28 @@ class MyTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.errorText,
-    required this.fieldName,
+    this.fieldName = "",
   });
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(fieldNameColor.toString());
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Column(
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
-                child: Text(
-                  fieldName,
-                  style: TextStyle(color: fieldNameColor, fontSize: 16),
-                ),
-              ),
-            ),
+            fieldName != ""
+                ? SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25.0, vertical: 5),
+                      child: Text(
+                        fieldName,
+                        style: TextStyle(color: fieldNameColor, fontSize: 16),
+                      ),
+                    ),
+                  )
+                : Container(),
             TextField(
               controller: controller,
               decoration: InputDecoration(
@@ -90,11 +91,13 @@ class MyTextField extends StatelessWidget {
   }
 }
 
-class MySizedBox extends StatelessWidget {
+class MyFieldnameBox extends StatelessWidget {
   final String fieldName;
+  final Color fieldNameColor;
 
-  const MySizedBox({
+  const MyFieldnameBox({
     super.key,
+    this.fieldNameColor = const Color.fromARGB(225, 255, 236, 179),
     required this.fieldName,
   });
 
@@ -106,7 +109,7 @@ class MySizedBox extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
         child: Text(
           fieldName,
-          style: TextStyle(color: Colors.amber.shade100, fontSize: 16),
+          style: TextStyle(color: fieldNameColor, fontSize: 16),
         ),
       ),
     );
@@ -147,4 +150,3 @@ class MyRadioButtons extends StatelessWidget {
     );
   }
 }
-

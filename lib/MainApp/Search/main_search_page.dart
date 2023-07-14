@@ -18,7 +18,7 @@ class _SearchPageState extends State<SearchPage> {
   String sortMethod = "time↑";
   Map filter = {
     "minLikes": 0,
-    "tag": "",
+    "tags": "",
     "eventName": "",
   };
 
@@ -62,10 +62,10 @@ class _SearchPageState extends State<SearchPage> {
     if (filter["minLikes"] > event.likes) {
       match = false;
     }
-    if (filter["tag"] != "" &&
-        !event.tags.contains(filter["tag"].toString().toLowerCase())) {
-      match = false;
-    }
+    // if (filter["tag"] != "" &&
+    //     !event.tags.contains(filter["tag"].toString().toLowerCase())) {
+    //   match = false;
+    // }
     if (filter["eventName"] != "" &&
         !event.title
             .toLowerCase()

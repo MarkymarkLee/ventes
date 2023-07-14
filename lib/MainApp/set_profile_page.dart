@@ -71,7 +71,7 @@ class _SetProfilePageState extends State<SetProfilePage> {
         const SizedBox(height: 20),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.0),
-          child: MySizedBox(fieldName: "Gender"),
+          child: MyFieldnameBox(fieldName: "Gender"),
         ),
         Row(
           // mainAxisAlignment: MainAxisAlignment.spaceAround,

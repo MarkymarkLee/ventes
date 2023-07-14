@@ -3,6 +3,7 @@ import 'package:ventes/Functions/events_data.dart';
 import 'package:ventes/data.dart';
 import 'package:ventes/MainApp/Search/components.dart';
 import 'package:ventes/MainApp/Search/event_dialog.dart';
+import 'package:ventes/MainApp/Search/filter_dialog.dart';
 import 'package:ventes/Components/loading_components.dart';
 
 class SearchPage extends StatefulWidget {
@@ -15,6 +16,18 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   Future<List<Event>> allEvents = EventsData.getAllEvents();
   String sortMethod = "time↑";
+  Map filter = {
+    "minLikes": 0,
+    "tags": "",
+    "eventName": "",
+  };
+
+  onApplyFilter(Map filter) {
+    debugPrint(filter.toString());
+    setState(() {
+      this.filter = filter;
+    });
+  }
 
   onTap(Event event) {
     showDialog(
@@ -31,6 +44,13 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+  Future<void> onNavigateFilter(BuildContext context) async {
+    final filter = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const FilterDialog()));
+    if (!mounted) return;
+    onApplyFilter(filter);
+  }
+
   // TODO
   bool matchRequirements(Event event) {
     return true;
@@ -38,7 +58,21 @@ class _SearchPageState extends State<SearchPage> {
 
   // TODO
   bool matchFilter(Event event) {
-    return true;
+    bool match = true;
+    if (filter["minLikes"] > event.likes) {
+      match = false;
+    }
+    // if (filter["tag"] != "" &&
+    //     !event.tags.contains(filter["tag"].toString().toLowerCase())) {
+    //   match = false;
+    // }
+    if (filter["eventName"] != "" &&
+        !event.title
+            .toLowerCase()
+            .contains(filter["eventName"].toString().toLowerCase())) {
+      match = false;
+    }
+    return match;
   }
 
   // TODO
@@ -54,16 +88,11 @@ class _SearchPageState extends State<SearchPage> {
   List<Event> preprocessEvents(List<Event> events) {
     List<Event> validEvents = [];
     for (Event event in events) {
-      if (!matchRequirements(event)) {
-        continue;
+      bool valid = false;
+      if (matchRequirements(event) && matchFilter(event) && matchSearch(event)) {
+        valid = true;
       }
-      if (!matchFilter(event)) {
-        continue;
-      }
-      if (!matchSearch(event)) {
-        continue;
-      }
-      validEvents.add(event);
+      if (valid) validEvents.add(event);
     }
     sortEvents(validEvents);
     return validEvents;
@@ -95,10 +124,12 @@ class _SearchPageState extends State<SearchPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
-                child: Text("Filter"),
+                onPressed: () {
+                  onNavigateFilter(context);
+                },
+                child: const Text("Filter"),
               ),
             ),
             const Padding(
@@ -106,7 +137,7 @@ class _SearchPageState extends State<SearchPage> {
               child: Text("Sort by:"),
             ),
             Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: DropdownButton<String>(
                   value: sortMethod,
                   items:
@@ -124,9 +155,9 @@ class _SearchPageState extends State<SearchPage> {
                 )),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Search',
                   ),
@@ -147,28 +178,28 @@ class _SearchPageState extends State<SearchPage> {
                 }
 
                 List<Event> events = snapshot.data as List<Event>;
-                preprocessEvents(events);
+                List<Event> validEvents = preprocessEvents(events);
 
-                if (events.isEmpty) {
+                if (validEvents.isEmpty) {
                   return const Center(child: Text("No events found"));
                 }
 
                 return Scrollbar(
-                  thickness: 10,
-                  radius: const Radius.circular(5.0),
+                    thickness: 10,
+                    radius: const Radius.circular(5.0),
                     child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: events.length,
-                  itemBuilder: (context, index) {
-                    return EventCard(
-                      event: events[index],
-                      onTap: onTap,
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                ));
+                      shrinkWrap: true,
+                      itemCount: validEvents.length,
+                      itemBuilder: (context, index) {
+                        return EventCard(
+                          event: validEvents[index],
+                          onTap: onTap,
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider();
+                      },
+                    ));
               }),
         )
       ],

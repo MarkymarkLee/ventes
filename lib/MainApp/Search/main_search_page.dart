@@ -51,8 +51,10 @@ class _SearchPageState extends State<SearchPage> {
     onApplyFilter(filter);
   }
 
-  // TODO
   bool matchRequirements(Event event) {
+    if (event.genderLimit != "all" && event.genderLimit != currentUser.gender) {
+      return false;
+    }
     return true;
   }
 
@@ -80,16 +82,23 @@ class _SearchPageState extends State<SearchPage> {
     return true;
   }
 
-  // TODO
   sortEvents(List<Event> events) {
-    events.sort((a, b) => a.date.compareTo(b.date));
+    if (sortMethod == "time↑") {
+      events.sort((a, b) => a.startTime!.isBefore(b.startTime!) ? -1 : 1);
+    } else if (sortMethod == "time↓") {
+      events.sort((a, b) => a.startTime!.isBefore(b.startTime!) ? 1 : -1);
+    } else if (sortMethod == "likes") {
+      events.sort((a, b) => a.likes > b.likes ? -1 : 1);
+    }
   }
 
   List<Event> preprocessEvents(List<Event> events) {
     List<Event> validEvents = [];
     for (Event event in events) {
       bool valid = false;
-      if (matchRequirements(event) && matchFilter(event) && matchSearch(event)) {
+      if (matchRequirements(event) &&
+          matchFilter(event) &&
+          matchSearch(event)) {
         valid = true;
       }
       if (valid) validEvents.add(event);

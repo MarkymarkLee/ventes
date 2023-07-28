@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Functions/test.dart';
-import 'package:ventes/MainApp/Profile/add_event_page.dart';
+import 'package:ventes/MainApp/Profile/AddEvent/add_event_page.dart';
 import 'package:ventes/MainApp/Profile/profile_info.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -24,9 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AddEventPage()),
+                  MaterialPageRoute(builder: (context) => AddEventPage()),
                 );
-                RandomEvent.addEvent();
               },
               child: const Text("Add Event")),
           ElevatedButton(

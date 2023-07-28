@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:ventes/data.dart';
 
 abstract class UsersData {
   static CollectionReference users =
@@ -77,5 +78,15 @@ abstract class UsersData {
       "isDarkMode": isDarkMode,
     };
     await UsersData.updateUser(email, darkMode);
+  }
+
+  static Future<AppUser> getAppUser(String email) async {
+    try {
+      // Get reference to Firestore collection
+      var doc = await users.doc(email).get();
+      return AppUser.fromJson(doc.data());
+    } catch (e) {
+      rethrow;
+    }
   }
 }

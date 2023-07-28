@@ -114,14 +114,14 @@ class _VerifyPageState extends State<VerifyPage> {
 
               // explanation text
               Text(
-                "This app is currently only available for NTU students.",
+                "This app is currently only available for students.",
                 style: TextStyle(color: Colors.amber.shade100, fontSize: 25),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
 
               // email
-              
+
               MyTextField(
                 controller: emailController,
                 hintText: "ex: b11111111@ntu.edu.tw",

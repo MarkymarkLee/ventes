@@ -4,6 +4,7 @@ import 'package:ventes/MainApp/set_profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/Components/loading_components.dart';
+import 'package:ventes/data.dart';
 
 // Decides whether to show profile setting page or main page
 class MainNav extends StatefulWidget {
@@ -30,10 +31,11 @@ class _MainNavState extends State<MainNav> {
             if (snapshot.data == null) {
               return const Loading();
             }
-            Map<String, dynamic>? userdata = snapshot.data!.data();
+            Map<String, dynamic> userdata = snapshot.data!.data()!;
 
-            if (userdata!.containsKey("nickname") &&
+            if (userdata.containsKey("nickname") &&
                 userdata.containsKey("gender")) {
+              currentUser = AppUser.fromJson(userdata);
               return const MainAppPage();
             } else {
               return SetProfilePage(

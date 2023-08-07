@@ -33,8 +33,8 @@ class _MainNavState extends State<MainNav> {
             }
             Map<String, dynamic> userdata = snapshot.data!.data()!;
 
-            if (userdata.containsKey("nickname") &&
-                userdata.containsKey("gender")) {
+            if (userdata["nickname"] != "" &&
+                userdata["gender"] != "") {
               currentUser = AppUser.fromJson(userdata);
               return const MainAppPage();
             } else {

@@ -7,6 +7,7 @@ class Styles {
       primaryColor: isDarkTheme ? Colors.black : Colors.white,
       // backgroundColor: isDarkTheme ? Colors.black : Color(0xffF1F5FB),
       scaffoldBackgroundColor: isDarkTheme ? Colors.brown[700] : Colors.white,
+      dialogBackgroundColor: isDarkTheme ? const Color.fromARGB(255, 176, 146, 135) : Colors.white,
       // indicatorColor: isDarkTheme ? const Color(0xff0E1D36) : const Color(0xffCBDCF8),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -24,6 +25,14 @@ class Styles {
           color: isDarkTheme
               ? const Color.fromARGB(255, 206, 162, 129)
               : Colors.blue),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          backgroundColor: isDarkTheme
+              ? const Color.fromARGB(255, 206, 162, 129)
+              : Colors.blue,
+          foregroundColor: isDarkTheme ? Colors.black : Colors.white,
+        ),
+      ),
       // canvasColor: isDarkTheme ? Colors.amber[50] : Colors.white,
     );
   }

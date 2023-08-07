@@ -150,3 +150,63 @@ class MyRadioButtons extends StatelessWidget {
     );
   }
 }
+
+class MyTextButton extends StatelessWidget {
+  final Function()? onTap;
+  final String buttonText;
+  final Color textColor;
+
+  const MyTextButton({
+    super.key,
+    required this.onTap,
+    required this.buttonText,
+    this.textColor = Colors.black,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: SizedBox(
+        child: TextButton(
+          onPressed: onTap,
+          child: Text(
+            buttonText,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MyOverFlowText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+  final int maxLines;
+  final bool softWrap;
+  final TextOverflow overflow;
+
+  const MyOverFlowText(
+      {super.key,
+      required this.text,
+      this.style,
+      this.maxLines = 1,
+      this.softWrap = false,
+      this.overflow = TextOverflow.ellipsis});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Text(
+      text,
+      style: style,
+      maxLines: maxLines,
+      softWrap: softWrap,
+      overflow: overflow,
+    ));
+  }
+}

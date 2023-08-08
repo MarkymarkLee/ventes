@@ -153,8 +153,10 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   List<Event> preprocessEvents(List<Event> events) {
+    debugPrint("in preprocessEvents");
     List<Event> validEvents = [];
     for (Event event in events) {
+      debugPrint("event: ${event.title}");
       bool valid = false;
       if (matchRequirements(event) &&
           matchFilter(event) &&
@@ -243,6 +245,7 @@ class _SearchPageState extends State<SearchPage> {
                 }
 
                 List<Event> events = snapshot.data as List<Event>;
+                debugPrint(events.toString());
                 List<Event> validEvents = preprocessEvents(events);
 
                 if (validEvents.isEmpty) {

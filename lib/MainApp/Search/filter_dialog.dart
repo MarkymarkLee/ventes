@@ -15,7 +15,16 @@ class _FilterDialogState extends State<FilterDialog> {
           0, (index) => TextEditingController());
 
   final _eventNameController = TextEditingController();
-  static const List<String> minLikes = ["0", "1", "5", "10", "50", "100", "500", "1000"];
+  static const List<String> minLikes = [
+    "0",
+    "1",
+    "5",
+    "10",
+    "50",
+    "100",
+    "500",
+    "1000"
+  ];
   String selectedMinLikes = "0";
 
   void onRemoveTag(int index) {
@@ -65,6 +74,8 @@ class _FilterDialogState extends State<FilterDialog> {
                 child: Column(
           children: [
             const SizedBox(height: 20),
+
+            // event name
             MyTextField(
                 controller: _eventNameController,
                 hintText: "",
@@ -72,6 +83,8 @@ class _FilterDialogState extends State<FilterDialog> {
                 fieldName: "Event name",
                 fieldNameColor: Colors.amber.shade100),
             const SizedBox(height: 20),
+
+            // tags
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -119,6 +132,11 @@ class _FilterDialogState extends State<FilterDialog> {
                     ]);
                   }).toList())
                 : Container(),
+            
+            // time
+            
+
+            // min likes
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
@@ -148,10 +166,12 @@ class _FilterDialogState extends State<FilterDialog> {
                     }).toList(),
                   ))),
             ),
-            const SizedBox(height: 20),
-            MyButton(onTap: onResetAll, buttonText: "Reset all filters"),
+
+            // apply and reset buttons
             const SizedBox(height: 20),
             MyButton(onTap: onApplyAll, buttonText: "Apply all filters"),
+            const SizedBox(height: 20),
+            MyButton(onTap: onResetAll, buttonText: "Reset all filters"),
           ],
         ))));
   }

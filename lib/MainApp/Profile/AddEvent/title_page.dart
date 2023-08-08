@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:ventes/Components/components.dart';
+import 'package:ventes/Styles/text_style.dart';
+import 'package:ventes/data.dart';
 import 'globals.dart';
 
 // This is the first page for the add event process
 // should add a title, description, date, time and location
 class TitlePage extends StatefulWidget {
   final String titleError;
-  TitlePage({super.key, this.titleError = ""});
+  const TitlePage({super.key, this.titleError = ""});
 
   @override
   State<TitlePage> createState() => _TitlePageState();
@@ -13,38 +16,35 @@ class TitlePage extends StatefulWidget {
 
 class _TitlePageState extends State<TitlePage> {
   bool? choosetime = false;
-  DateTime date = createdEvent.startTime!;
+  DateTime startDate = createdEvent.startTime!;
+  DateTime endDate = createdEvent.endTime!;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Center(
         child: Column(
           children: [
-            Text("Add Event"),
-
+            const SizedBox(height: 10),
             // Title textfield
-            TextField(
+            MyTextField(
               controller: TextEditingController(text: createdEvent.title),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "title",
-              ),
+              fieldName: "Title",
+              hintText: "title",
+              errorText: widget.titleError,
               maxLength: 50,
               onChanged: (value) {
                 createdEvent.title = value;
               },
             ),
-            if (widget.titleError != "") Text(widget.titleError),
 
             // Description textfield
-            TextField(
+            MyTextField(
               controller: TextEditingController(text: createdEvent.description),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Description",
-              ),
-              maxLines: 50,
-              minLines: 1,
+              fieldName: "Description",
+              hintText: "description",
+              // maxLines: 50,
+              // minLines: 1,
               maxLength: 300,
               onChanged: (value) {
                 createdEvent.description = value;
@@ -52,48 +52,73 @@ class _TitlePageState extends State<TitlePage> {
             ),
 
             // Location textfield
-            TextField(
+            MyTextField(
               controller: TextEditingController(text: createdEvent.location),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Location",
-              ),
+              fieldName: "Location",
+              hintText: "location",
               maxLength: 50,
               onChanged: (value) {
                 createdEvent.location = value;
               },
             ),
 
-            // Date/time fields
-            Text("When is the event?"),
-
             Row(
               children: [
-                Expanded(child: Container()),
-                Text("Date: ${date.year}/${date.month}/${date.day}"),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5),
+                  child: Text(
+                    "When is the event?",
+                    style: MyTextStyle.titleMedium(context),
+                  ),
+                ),
                 IconButton(
                     onPressed: () async {
-                      DateTime? newDate = await showDatePicker(
+                      DateTimeRange? newDateRange = await showDateRangePicker(
                         context: context,
-                        initialDate: date,
                         firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(Duration(days: 365)),
+                        lastDate: DateTime.now().add(const Duration(days: 365)),
                       );
-                      if (newDate != null) {
+                      if (newDateRange != null) {
+                        DateTime? newStartDate = newDateRange.start;
+                        DateTime? newEndDate = newDateRange.end;
                         setState(() {
-                          date = newDate;
+                          startDate = newStartDate;
+                          endDate = newEndDate;
                         });
-                        createdEvent.startTime = newDate;
+                        createdEvent.startTime = newStartDate;
+                        createdEvent.endTime = newEndDate;
                       }
                     },
-                    icon: Icon(Icons.calendar_month_sharp)),
+                    icon: const Icon(Icons.calendar_month_sharp)),
                 Expanded(child: Container()),
               ],
             ),
 
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: TextField(
+                controller: TextEditingController(
+                    text: eventDateRange(startDate, endDate, true, true)),
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.amber),
+                  ),
+                  fillColor: Colors.amber[50],
+                  filled: true,
+                ),
+                style: MyTextStyle.bodyMedium(context),
+              ),
+            ),
+            const SizedBox(height: 15),
+
             // Event length
-            Text("How long is the event?"),
-            DurationChooser(),
+            Text("How long is the event?", style: MyTextStyle.titleMedium(context)),
+            const SizedBox(height: 10),
+            const DurationChooser(),
           ],
         ),
       ),

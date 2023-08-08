@@ -19,7 +19,6 @@ class _AuthNavState extends State<AuthNav> {
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         }
-        debugPrint(snapshot.data.toString());
         if (snapshot.data == null) {
           return LoginPage();
         } else {

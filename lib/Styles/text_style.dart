@@ -22,30 +22,36 @@ class MyTextStyle{
     return Theme.of(context).textTheme.headlineSmall;
   }
 
-  static TextStyle? title(BuildContext context){
+  static TextStyle? titleLarge(BuildContext context){
     return Theme.of(context).textTheme.titleLarge;
   }
 
-  static TextStyle medium(BuildContext context){
+  static TextStyle titleCustomFontsize(BuildContext context, double fontSize){
     return Theme.of(context).textTheme.titleMedium!.copyWith(
-      fontSize: 18,
+      fontSize: fontSize,
     );
   }
 
-  static TextStyle? subhead(BuildContext context){
+  static TextStyle? titleMedium(BuildContext context){
     return Theme.of(context).textTheme.titleMedium;
   }
 
-  static TextStyle? body2(BuildContext context){
+  static TextStyle? bodyLarge(BuildContext context){
     return Theme.of(context).textTheme.bodyLarge;
   }
 
-  static TextStyle? body1(BuildContext context){
+  static TextStyle? bodyMedium(BuildContext context){
     return Theme.of(context).textTheme.bodyMedium;
   }
 
-  static TextStyle? caption(BuildContext context){
+  static TextStyle? bodySmall(BuildContext context){
     return Theme.of(context).textTheme.bodySmall;
+  }
+
+  static TextStyle? bodyCustomFontsize(BuildContext context, double fontSize){
+    return Theme.of(context).textTheme.bodySmall!.copyWith(
+      fontSize: fontSize,
+    );
   }
 
   static TextStyle? button(BuildContext context){
@@ -54,7 +60,7 @@ class MyTextStyle{
     );
   }
 
-  static TextStyle? subtitle(BuildContext context){
+  static TextStyle? titleSmall(BuildContext context){
     return Theme.of(context).textTheme.titleSmall;
   }
 

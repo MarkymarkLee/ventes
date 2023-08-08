@@ -23,8 +23,6 @@ class EventDialog extends StatefulWidget {
 }
 
 class _EventDialogState extends State<EventDialog> {
-
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -34,32 +32,45 @@ class _EventDialogState extends State<EventDialog> {
       content: SingleChildScrollView(
         child: Column(
           children: [
-            // starting time
+            // time
             Row(
               children: [
                 const Icon(Icons.event_available_outlined),
                 const SizedBox(width: 5),
-                MyOverFlowText(
-                  text: dateText(widget.event.startTime!),
-                  style: MyTextStyle.subtitle(context),
-                  maxLines: 2,
+                Text(
+                  "Time :",
+                  style: MyTextStyle.bodyCustomFontsize(context, 14),
                 ),
               ],
             ),
+            const SizedBox(height: 10),
+            Text(
+              eventDateRange(
+                  widget.event.startTime!, widget.event.endTime!, true, true),
+              style: MyTextStyle.titleSmall(context),
+              maxLines: 2,
+            ),
             const SizedBox(height: 15),
+
             // location
             Row(
               children: [
                 const Icon(Icons.place_outlined),
                 const SizedBox(width: 5),
-                MyOverFlowText(
-                  text: widget.event.location,
-                  style: MyTextStyle.subtitle(context),
-                  maxLines: 3,
+                Text(
+                  "Location : ",
+                  style: MyTextStyle.bodyCustomFontsize(context, 14),
                 ),
               ],
             ),
+            const SizedBox(height: 10),
+            Text(
+              widget.event.location,
+              style: MyTextStyle.titleSmall(context),
+              maxLines: 3,
+            ),
             const SizedBox(height: 15),
+
             // joined people and likes
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +90,7 @@ class _EventDialogState extends State<EventDialog> {
                     const SizedBox(width: 5),
                     MyOverFlowText(
                       text: widget.event.likes.toString(),
-                      style: MyTextStyle.subtitle(context),
+                      style: MyTextStyle.titleSmall(context),
                       maxLines: 1,
                     ),
                   ],
@@ -94,13 +105,16 @@ class _EventDialogState extends State<EventDialog> {
                 const SizedBox(width: 5),
                 MyOverFlowText(
                   text: "Host email : ",
-                  style: MyTextStyle.subtitle(context),
+                  style: MyTextStyle.bodyCustomFontsize(context, 14),
                   maxLines: 1,
                 ),
               ],
             ),
             const SizedBox(height: 10),
-            Text(widget.event.hostID),
+            Text(
+              widget.event.hostID,
+              style: MyTextStyle.titleSmall(context),
+            ),
             const SizedBox(height: 15),
             // tags
             if (widget.event.tags.isNotEmpty)
@@ -112,7 +126,7 @@ class _EventDialogState extends State<EventDialog> {
                       const SizedBox(width: 5),
                       MyOverFlowText(
                         text: "Tags :",
-                        style: MyTextStyle.subtitle(context),
+                        style: MyTextStyle.bodyCustomFontsize(context, 14),
                         maxLines: 1,
                       ),
                     ],
@@ -120,10 +134,10 @@ class _EventDialogState extends State<EventDialog> {
                   const SizedBox(height: 10),
                   Wrap(
                     spacing: 5,
-                    runSpacing: 5,
                     children: widget.event.tags
                         .map((e) => Chip(
-                              label: Text(e),
+                              label: Text(e,
+                                  style: MyTextStyle.bodySmall(context)),
                             ))
                         .toList(),
                   ),
@@ -141,16 +155,19 @@ class _EventDialogState extends State<EventDialog> {
                       const SizedBox(width: 5),
                       MyOverFlowText(
                         text: "Details for this event :",
-                        style: MyTextStyle.subtitle(context),
+                        style: MyTextStyle.bodyCustomFontsize(context, 14),
                         maxLines: 1,
                       ),
                     ],
                   ),
-                  Text(widget.event.description),
                   const SizedBox(height: 10),
+                  Text(
+                    widget.event.description,
+                    style: MyTextStyle.titleSmall(context),
+                    maxLines: 5,
+                  ),
                 ],
               ),
-            
           ],
         ),
       ),

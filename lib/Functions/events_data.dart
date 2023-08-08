@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:ventes/data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,11 +19,13 @@ abstract class EventsData {
   static Future<List<Event>> getAllEvents() async {
     List<Event> eventsList = [];
     await events.get().then((snapshot) {
+      debugPrint(snapshot.docs.toString());
       for (var doc in snapshot.docs) {
         try {
           var event = Event.fromJson(doc.data());
           eventsList.add(event);
         } catch (e) {
+          debugPrint("error in parsing event");
           log(e.toString());
         }
       }

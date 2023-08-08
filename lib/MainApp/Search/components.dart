@@ -62,8 +62,8 @@ class _EventCardState extends State<EventCard> {
                             ),
                             const SizedBox(width: 5),
                             MyOverFlowText(
-                              text: dateText(widget.event.startTime!),
-                              style: MyTextStyle.subtitle(context),
+                              text: eventDateRange(widget.event.startTime!, widget.event.endTime!, false, false),
+                              style: MyTextStyle.titleSmall(context),
                               maxLines: 2,
                             ),
                           ],
@@ -78,7 +78,7 @@ class _EventCardState extends State<EventCard> {
                               const SizedBox(width: 5),
                               MyOverFlowText(
                                 text: widget.event.location,
-                                style: MyTextStyle.subtitle(context),
+                                style: MyTextStyle.titleSmall(context),
                                 maxLines: 1,
                               ),
                             ],
@@ -200,7 +200,7 @@ class _JoinedPeopleState extends State<JoinedPeople> {
               const SizedBox(width: 5),
               MyOverFlowText(
                 text: widget.event.currentPeople.toString(),
-                style: MyTextStyle.subtitle(context),
+                style: MyTextStyle.titleSmall(context),
                 maxLines: 1,
               ),
             ],
@@ -215,7 +215,7 @@ class _JoinedPeopleState extends State<JoinedPeople> {
               const SizedBox(width: 5),
               MyOverFlowText(
                 text: "${widget.event.currentPeople}/${widget.event.maxPeople}",
-                style: MyTextStyle.subtitle(context),
+                style: MyTextStyle.titleSmall(context),
                 maxLines: 1,
               ),
             ],

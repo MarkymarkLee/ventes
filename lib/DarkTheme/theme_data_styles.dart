@@ -8,6 +8,7 @@ class Styles {
       // backgroundColor: isDarkTheme ? Colors.black : Color(0xffF1F5FB),
       scaffoldBackgroundColor: isDarkTheme ? Colors.brown[700] : Colors.white,
       dialogBackgroundColor: isDarkTheme ? const Color.fromARGB(255, 176, 146, 135) : Colors.white,
+      
       // indicatorColor: isDarkTheme ? const Color(0xff0E1D36) : const Color(0xffCBDCF8),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -33,7 +34,41 @@ class Styles {
           foregroundColor: isDarkTheme ? Colors.black : Colors.white,
         ),
       ),
-      // canvasColor: isDarkTheme ? Colors.amber[50] : Colors.white,
+      textTheme: TextTheme(
+        titleSmall: TextStyle(
+          fontSize: 12,
+          color: isDarkTheme ? Colors.amber : Colors.amber.shade800,
+        ),
+        titleMedium: TextStyle(
+          fontSize: 16,
+          color: isDarkTheme ? Colors.amber : Colors.amber.shade800,
+        ),
+        titleLarge: TextStyle(
+          fontSize: 20,
+          color: isDarkTheme ? Colors.amber : Colors.amber.shade800,
+        ),
+        bodySmall: const TextStyle(
+          fontSize: 12,
+          color: Colors.black,
+        ),
+        bodyMedium: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+        ),
+        bodyLarge: const TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: TextStyle(
+          color: isDarkTheme ? Colors.white : Colors.black,
+        ),
+        hintStyle: TextStyle(
+          color: isDarkTheme ? Colors.white : Colors.black,
+        ),
+      ),
+      // canvasColor: isDarkTheme ? Colors.brown : Colors.black,
     );
   }
 }

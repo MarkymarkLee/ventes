@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:ventes/Functions/events_data.dart';
-import 'package:ventes/Functions/users_data.dart';
+import 'package:ventes/Styles/text_style.dart';
 import 'package:ventes/data.dart';
+import 'package:ventes/Components/components.dart';
 
 class EventCard extends StatefulWidget {
   final Event event;
+  final Function addLike;
+  final Function removeLike;
+  final Function joinEvent;
+  final Function leaveEvent;
   final dynamic onTap;
-  const EventCard({super.key, required this.event, required this.onTap});
+  const EventCard(
+      {super.key,
+      required this.event,
+      required this.addLike,
+      required this.removeLike,
+      required this.joinEvent,
+      required this.leaveEvent,
+      required this.onTap});
 
   @override
   State<EventCard> createState() => _EventCardState();
@@ -20,53 +31,128 @@ class _EventCardState extends State<EventCard> {
         widget.onTap(widget.event);
       },
       child: Card(
-        // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-        child: Column(
-          children: [
-            Text(widget.event.title),
-            Text(dateText(widget.event.startTime!)),
-            if (widget.event.location.isNotEmpty)
-              Text("Location: ${widget.event.location}"),
-            LikesButton(event: widget.event),
-            JoinedPeople(event: widget.event),
-          ],
-        ),
-      ),
+          // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    "images/logo.png",
+                    width: 100,
+                    fit: BoxFit.cover,
+                  ),
+                  Container(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(height: 5),
+                        Text(widget.event.title,
+                            style: MyTextStyle.display1(context)),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.event_available_outlined,
+                            ),
+                            const SizedBox(width: 5),
+                            MyOverFlowText(
+                              text: eventDateRange(widget.event.startDate!, widget.event.endDate!, false, false),
+                              style: MyTextStyle.titleSmall(context),
+                              maxLines: 2,
+                            ),
+                          ],
+                        ),
+                        if (widget.event.location.isNotEmpty)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.place_outlined,
+                              ),
+                              const SizedBox(width: 5),
+                              MyOverFlowText(
+                                text: widget.event.location,
+                                style: MyTextStyle.titleSmall(context),
+                                maxLines: 1,
+                              ),
+                            ],
+                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            JoinedPeople(event: widget.event),
+                            const SizedBox(width: 10),
+                            LikesButton(
+                                event: widget.event,
+                                addLike: widget.addLike,
+                                removeLike: widget.removeLike),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      currentUser.likedEvents.contains(widget.event.eventID)
+                          ? MyTextButton(
+                              buttonText: "DISLIKE",
+                              onTap: () {
+                                widget.removeLike(widget.event);
+                              },
+                            )
+                          : MyTextButton(
+                              buttonText: "LIKE",
+                              onTap: () {
+                                widget.addLike(widget.event);
+                              },
+                              textColor: Colors.red,
+                            ),
+                      const SizedBox(height: 5),
+                      currentUser.joinedEvents.contains(widget.event.eventID)
+                          ? MyTextButton(
+                              buttonText: "LEAVE",
+                              onTap: () {
+                                widget.leaveEvent(widget.event);
+                              },
+                            )
+                          : MyTextButton(
+                              buttonText: "JOIN",
+                              onTap: () {
+                                widget.joinEvent(widget.event);
+                              },
+                              textColor: Colors.red,
+                            ),
+                    ],
+                  )
+                ],
+              ))),
     );
   }
 }
 
 class LikesButton extends StatefulWidget {
   final Event event;
-  const LikesButton({super.key, required this.event});
+  final Function addLike;
+  final Function removeLike;
+  const LikesButton(
+      {super.key,
+      required this.event,
+      required this.addLike,
+      required this.removeLike});
 
   @override
   State<LikesButton> createState() => _LikesButtonState();
 }
 
 class _LikesButtonState extends State<LikesButton> {
-  void addLike() {
-    EventsData.updateEvent(
-        widget.event.eventID, {"likes": widget.event.likes + 1});
-    currentUser.likedEvents.add(widget.event.eventID);
-    UsersData.updateUser(
-        currentUser.email, {"likedEvents": currentUser.likedEvents});
-    setState(() {
-      widget.event.likes++;
-    });
-  }
-
-  void removelike() {
-    EventsData.updateEvent(
-        widget.event.eventID, {"likes": widget.event.likes - 1});
-    currentUser.likedEvents.remove(widget.event.eventID);
-    UsersData.updateUser(
-        currentUser.email, {"likedEvents": currentUser.likedEvents});
-    setState(() {
-      widget.event.likes--;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -75,9 +161,9 @@ class _LikesButtonState extends State<LikesButton> {
         IconButton(
             onPressed: () {
               if (currentUser.likedEvents.contains(widget.event.eventID)) {
-                removelike();
+                widget.removeLike(widget.event);
               } else {
-                addLike();
+                widget.addLike(widget.event);
               }
             },
             icon: Icon(
@@ -104,7 +190,35 @@ class _JoinedPeopleState extends State<JoinedPeople> {
   @override
   Widget build(BuildContext context) {
     return widget.event.maxPeople == 0
-        ? Text("${widget.event.currentPeople}")
-        : Text("${widget.event.currentPeople}/${widget.event.maxPeople}");
+        ? Expanded(
+            child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.people_outlined,
+              ),
+              const SizedBox(width: 5),
+              MyOverFlowText(
+                text: widget.event.currentPeople.toString(),
+                style: MyTextStyle.titleSmall(context),
+                maxLines: 1,
+              ),
+            ],
+          ))
+        : Expanded(
+            child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.people_outlined,
+              ),
+              const SizedBox(width: 5),
+              MyOverFlowText(
+                text: "${widget.event.currentPeople}/${widget.event.maxPeople}",
+                style: MyTextStyle.titleSmall(context),
+                maxLines: 1,
+              ),
+            ],
+          ));
   }
 }

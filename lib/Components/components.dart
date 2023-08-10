@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ventes/Styles/text_style.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;
@@ -39,6 +40,8 @@ class MyTextField extends StatelessWidget {
   final String fieldName;
   final Color fieldNameColor;
   final Color textfieldBorderColor;
+  final int? maxLength;
+  final Function(String)? onChanged;
 
   // Colors.amber.shade100
 
@@ -48,8 +51,10 @@ class MyTextField extends StatelessWidget {
     this.textfieldBorderColor = const Color.fromARGB(225, 0, 0, 0),
     required this.controller,
     required this.hintText,
-    required this.errorText,
     this.fieldName = "",
+    this.errorText = "",
+    this.maxLength,
+    this.onChanged,
   });
 
   @override
@@ -66,7 +71,7 @@ class MyTextField extends StatelessWidget {
                           horizontal: 25.0, vertical: 5),
                       child: Text(
                         fieldName,
-                        style: TextStyle(color: fieldNameColor, fontSize: 16),
+                        style: MyTextStyle.titleMedium(context),
                       ),
                     ),
                   )
@@ -85,6 +90,9 @@ class MyTextField extends StatelessWidget {
                   hintText: hintText,
                   errorText: errorText != "" ? errorText : null,
                   hintStyle: TextStyle(color: Colors.grey[500])),
+              maxLength: maxLength,
+              onChanged: onChanged,
+              style: MyTextStyle.bodyMedium(context),
             ),
           ],
         ));
@@ -148,5 +156,65 @@ class MyRadioButtons extends StatelessWidget {
         onChanged: onRadioChanged,
       ),
     );
+  }
+}
+
+class MyTextButton extends StatelessWidget {
+  final Function()? onTap;
+  final String buttonText;
+  final Color textColor;
+
+  const MyTextButton({
+    super.key,
+    required this.onTap,
+    required this.buttonText,
+    this.textColor = Colors.black,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: SizedBox(
+        child: TextButton(
+          onPressed: onTap,
+          child: Text(
+            buttonText,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MyOverFlowText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+  final int maxLines;
+  final bool softWrap;
+  final TextOverflow overflow;
+
+  const MyOverFlowText(
+      {super.key,
+      required this.text,
+      this.style,
+      this.maxLines = 1,
+      this.softWrap = false,
+      this.overflow = TextOverflow.ellipsis});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Text(
+      text,
+      style: style,
+      maxLines: maxLines,
+      softWrap: softWrap,
+      overflow: overflow,
+    ));
   }
 }

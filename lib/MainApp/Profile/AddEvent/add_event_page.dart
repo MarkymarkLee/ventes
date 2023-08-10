@@ -34,7 +34,7 @@ class _AddEventPageState extends State<AddEventPage> {
         return false;
       }
     }
-    if (curPage == 1) {
+    else if (curPage == 1) {
       if (createdEvent.maxPeople < 0) {
         maxPeopleError = "Maximum number of people cannot be negative";
         return false;
@@ -45,7 +45,7 @@ class _AddEventPageState extends State<AddEventPage> {
       }
       maxPeopleError = "";
     }
-    if (curPage == 2) {}
+    else if (curPage == 2) {}
     return true;
   }
 
@@ -72,7 +72,7 @@ class _AddEventPageState extends State<AddEventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Add Event"),
+          title: const Text("Add Event"),
         ),
         bottomNavigationBar: SizedBox(
           height: 50,
@@ -83,7 +83,7 @@ class _AddEventPageState extends State<AddEventPage> {
                     onPressed: () {
                       prevPage();
                     },
-                    child: Text("Prev")),
+                    child: const Text("Prev")),
               Expanded(child: Container()),
               if (curPage != 2)
                 TextButton(
@@ -91,14 +91,14 @@ class _AddEventPageState extends State<AddEventPage> {
                       if (checkPage()) nextPage();
                       setState(() {});
                     },
-                    child: Text("Next"))
+                    child: const Text("Next"))
               else
                 TextButton(
                     onPressed: () {
                       addcreatedEvent();
                       Navigator.pop(context);
                     },
-                    child: Text("Finished"))
+                    child: const Text("Finished"))
             ],
           ),
         ),

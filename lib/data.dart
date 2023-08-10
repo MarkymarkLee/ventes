@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
+
 class Event {
   String title = "";
   String description = "";
-  DateTime? startTime = DateTime.now();
-  Duration? eventLength = const Duration(days: 1, hours: 0, minutes: 0);
+  DateTime? startDate = DateTime.now();
+  DateTime? endDate = DateTime.now();
+  TimeOfDay? startTime = TimeOfDay.now();
+  TimeOfDay? endTime = TimeOfDay.now();
   String location = "";
   String image = "";
   String eventID = "";
@@ -19,8 +23,10 @@ class Event {
   Event({
     this.title = "",
     this.description = "",
+    startDate,
+    endDate,
     startTime,
-    eventLength,
+    endTime,
     this.location = "",
     this.image = "",
     this.eventID = "",
@@ -34,8 +40,10 @@ class Event {
     this.groupChatID = "",
     this.currentPeople = 0,
   }) {
+    if (startDate != null) this.startDate = startDate;
+    if (endDate != null) this.endDate = endDate;
     if (startTime != null) this.startTime = startTime;
-    if (eventLength != null) this.eventLength = eventLength;
+    if (endTime != null) this.endTime = endTime;
     if (tags != null) {
       this.tags = tags;
     } else {
@@ -47,11 +55,15 @@ class Event {
     return Event(
       title: json?['title'],
       description: json?['description'],
-      startTime: DateTime.parse(json?['startDate']),
-      eventLength: Duration(
-        days: json?['eventLength']?['days'],
-        hours: json?['eventLength']?['hours'],
-        minutes: json?['eventLength']?['minutes'],
+      startDate: DateTime.parse(json?['startDate']),
+      endDate: DateTime.parse(json?['endDate']),
+      startTime: TimeOfDay(
+        hour: json?['startTime']?['hour'],
+        minute: json?['startTime']?['minute'],
+      ),
+      endTime: TimeOfDay(
+        hour: json?['endTime']?['hour'],
+        minute: json?['endTime']?['minute'],
       ),
       location: json?['location'],
       image: json?['image'],
@@ -69,16 +81,19 @@ class Event {
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> el = {
-      'days': eventLength!.inDays,
-      'hours': eventLength!.inHours - eventLength!.inDays * 24,
-      'minutes': eventLength!.inMinutes - eventLength!.inHours * 60,
-    };
     return {
       'title': title,
       'description': description,
-      'startDate': startTime.toString(),
-      'eventLength': el,
+      'startDate': startDate.toString(),
+      'endDate': endDate.toString(),
+      'startTime': {
+        'hour': startTime!.hour,
+        'minute': startTime!.minute,
+      },
+      'endTime': {
+        'hour': endTime!.hour,
+        'minute': endTime!.minute,
+      },
       'location': location,
       'image': image,
       'eventID': eventID,
@@ -103,15 +118,18 @@ class AppUser {
   List<dynamic> joinedEvents = [];
   List<dynamic> likedEvents = [];
   List<dynamic> chatIDs = [];
+  List<dynamic> tags = [];
 
   AppUser(
       {this.email = "",
       this.name = "",
       this.gender = "",
+      this.tags = const [],
       createdEvents,
       joinedEvents,
       likedEvents,
-      chatIDs}) {
+      chatIDs,
+      }) {
     this.createdEvents = createdEvents ?? [];
     this.joinedEvents = joinedEvents ?? [];
     this.likedEvents = likedEvents ?? [];
@@ -127,6 +145,7 @@ class AppUser {
       joinedEvents: json?['joinedEvents'],
       likedEvents: json?['likedEvents'],
       chatIDs: json?['chatIDs'],
+      tags: json?['tags'],
     );
   }
 
@@ -139,13 +158,43 @@ class AppUser {
       'joinedEvents': joinedEvents,
       'likedEvents': likedEvents,
       'chatIDs': chatIDs,
+      'tags': tags,
     };
   }
 }
 
 AppUser currentUser = AppUser();
 
-String dateText(DateTime date) {
+String eventDateRange(DateTime startDate, DateTime endDate, bool showWeekday,
+    bool showYear) {
+  return "${dateText(startDate, showWeekday, showYear)} ~ ${dateText(endDate, showWeekday, showYear)}";
+}
+
+String dateText(DateTime date, bool showWeekday, bool showYear) {
   var weekday = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  return "${date.year}/${date.month}/${date.day} ${weekday[date.weekday - 1]}";
+  if (showWeekday && showYear) {
+    return "${date.year}/${date.month}/${date.day} (${weekday[date.weekday - 1]})";
+  } else if (showWeekday) {
+    return "${date.month}/${date.day} (${weekday[date.weekday - 1]})";
+  } else if (showYear) {
+    return "${date.year}/${date.month}/${date.day}";
+  } else {
+    return "${date.month}/${date.day}";
+  }
+}
+
+String eventTimeRange(TimeOfDay startDate, TimeOfDay endDate, {bool is24HourFormat = true}) {
+  return "${timeText(startDate, is24HourFormat)} ~ ${timeText(endDate, is24HourFormat)}";
+}
+
+String timeText(TimeOfDay time, bool is24HourFormat) {
+  if (is24HourFormat) {
+    return "${time.hour}:${time.minute < 10 ? "0" : ""}${time.minute}";
+  } else {
+    if (time.hour > 12) {
+      return "${time.hour - 12}:${time.minute} PM";
+    } else {
+      return "${time.hour}:${time.minute} AM";
+    }
+  }
 }

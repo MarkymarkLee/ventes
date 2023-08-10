@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/DarkTheme/theme_mode_notifier.dart';
 import 'package:ventes/MainApp/Profile/edit_profile_page.dart';
+import 'package:ventes/Styles/text_style.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -14,9 +15,9 @@ class SettingPage extends StatelessWidget {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(children: [
-        const Text(
+        Text(
           "Setting Page",
-          style: TextStyle(fontSize: 30),
+          style: MyTextStyle.titleCustomFontsize(context, 30),
           textAlign: TextAlign.center,
         ),
         const SizedBox(
@@ -31,9 +32,9 @@ class SettingPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.8,
                     padding: const EdgeInsets.fromLTRB(
                         paddings, paddings, 0, paddings),
-                    child: const ListTile(
-                      leading: Icon(Icons.dark_mode),
-                      title: Text('Dark Mode'),
+                    child: ListTile(
+                      leading: const Icon(Icons.dark_mode),
+                      title: Text('Dark Mode', style: MyTextStyle.bodyMedium(context)),
                     )),
                 Switch(
                   value: themeChange.darkTheme,
@@ -54,9 +55,9 @@ class SettingPage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.8,
                     padding: const EdgeInsets.fromLTRB(
                         paddings, paddings, 0, paddings),
-                    child: const ListTile(
-                      leading: Icon(Icons.edit),
-                      title: Text('Edit profiles'),
+                    child: ListTile(
+                      leading: const Icon(Icons.edit),
+                      title: Text('Edit profiles', style: MyTextStyle.bodyMedium(context)),
                     )),
                 IconButton(
                     icon: const Icon(Icons.arrow_forward_ios),
@@ -79,9 +80,9 @@ class SettingPage extends StatelessWidget {
             child: Container(
                 padding:
                     const EdgeInsets.fromLTRB(paddings, paddings, 0, paddings),
-                child: const ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Logout'),
+                child: ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: Text('Logout', style: MyTextStyle.bodyMedium(context)),
                 )))
         ),
       ]),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Functions/events_data.dart';
+import 'package:ventes/Functions/users_data.dart';
 import 'package:ventes/data.dart';
 import 'package:ventes/MainApp/Search/components.dart';
 import 'package:ventes/MainApp/Search/event_dialog.dart';
@@ -33,7 +34,13 @@ class _SearchPageState extends State<SearchPage> {
     showDialog(
       context: context,
       builder: (context) {
-        return EventDialog(event: event);
+        return EventDialog(
+          event: event,
+          addLike: addLike,
+          removeLike: removeLike,
+          joinEvent: joinEvent,
+          leaveEvent: leaveEvent,
+        );
       },
     );
   }
@@ -41,6 +48,48 @@ class _SearchPageState extends State<SearchPage> {
   setEvents() {
     setState(() {
       allEvents = EventsData.getAllEvents();
+    });
+  }
+
+  addLike(Event event) {
+    EventsData.updateEvent(event.eventID, {"likes": event.likes + 1});
+    currentUser.likedEvents.add(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"likedEvents": currentUser.likedEvents});
+    setState(() {
+      event.likes++;
+    });
+  }
+
+  removeLike(Event event) {
+    EventsData.updateEvent(event.eventID, {"likes": event.likes - 1});
+    currentUser.likedEvents.remove(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"likedEvents": currentUser.likedEvents});
+    setState(() {
+      event.likes--;
+    });
+  }
+
+  joinEvent(Event event) {
+    currentUser.joinedEvents.add(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"joinedEvents": currentUser.joinedEvents});
+    EventsData.updateEvent(
+        event.eventID, {"currentPeople": event.currentPeople + 1});
+    setState(() {
+      event.currentPeople++;
+    });
+  }
+
+  leaveEvent(Event event) {
+    currentUser.joinedEvents.remove(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"joinedEvents": currentUser.joinedEvents});
+    EventsData.updateEvent(
+        event.eventID, {"currentPeople": event.currentPeople - 1});
+    setState(() {
+      event.currentPeople--;
     });
   }
 
@@ -64,17 +113,28 @@ class _SearchPageState extends State<SearchPage> {
     if (filter["minLikes"] > event.likes) {
       match = false;
     }
-    // if (filter["tag"] != "" &&
-    //     !event.tags.contains(filter["tag"].toString().toLowerCase())) {
-    //   match = false;
-    // }
     if (filter["eventName"] != "" &&
         !event.title
             .toLowerCase()
             .contains(filter["eventName"].toString().toLowerCase())) {
       match = false;
     }
-    return match;
+    bool tagsMatch = false;
+    if (filter["tags"] == "" || filter["tags"].isEmpty) {
+      tagsMatch = true;
+    } else {
+      for (String filterTag in filter["tags"]) {
+        for (String eventTag in event.tags) {
+          if (filterTag.toLowerCase() == eventTag.toLowerCase()) {
+            tagsMatch = true;
+            break;
+          }
+        }
+        if (tagsMatch) break;
+      }
+    }
+
+    return (match && tagsMatch);
   }
 
   // TODO
@@ -84,17 +144,19 @@ class _SearchPageState extends State<SearchPage> {
 
   sortEvents(List<Event> events) {
     if (sortMethod == "time↑") {
-      events.sort((a, b) => a.startTime!.isBefore(b.startTime!) ? -1 : 1);
+      events.sort((a, b) => a.startDate!.isBefore(b.startDate!) ? -1 : 1);
     } else if (sortMethod == "time↓") {
-      events.sort((a, b) => a.startTime!.isBefore(b.startTime!) ? 1 : -1);
+      events.sort((a, b) => a.startDate!.isBefore(b.startDate!) ? 1 : -1);
     } else if (sortMethod == "likes") {
       events.sort((a, b) => a.likes > b.likes ? -1 : 1);
     }
   }
 
   List<Event> preprocessEvents(List<Event> events) {
+    debugPrint("in preprocessEvents");
     List<Event> validEvents = [];
     for (Event event in events) {
+      debugPrint("event: ${event.title}");
       bool valid = false;
       if (matchRequirements(event) &&
           matchFilter(event) &&
@@ -113,12 +175,8 @@ class _SearchPageState extends State<SearchPage> {
       children: [
         // title and refresh button
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Search", style: TextStyle(fontSize: 20)),
-            ),
             IconButton(
               icon: const Icon(Icons.refresh),
               onPressed: () {
@@ -187,6 +245,7 @@ class _SearchPageState extends State<SearchPage> {
                 }
 
                 List<Event> events = snapshot.data as List<Event>;
+                debugPrint(events.toString());
                 List<Event> validEvents = preprocessEvents(events);
 
                 if (validEvents.isEmpty) {
@@ -202,6 +261,10 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) {
                         return EventCard(
                           event: validEvents[index],
+                          addLike: addLike,
+                          removeLike: removeLike,
+                          joinEvent: joinEvent,
+                          leaveEvent: leaveEvent,
                           onTap: onTap,
                         );
                       },

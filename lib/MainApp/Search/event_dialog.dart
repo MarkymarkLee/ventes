@@ -46,7 +46,7 @@ class _EventDialogState extends State<EventDialog> {
             const SizedBox(height: 10),
             Text(
               eventDateRange(
-                  widget.event.startTime!, widget.event.endTime!, true, true),
+                  widget.event.startDate!, widget.event.endDate!, true, true),
               style: MyTextStyle.titleSmall(context),
               maxLines: 2,
             ),

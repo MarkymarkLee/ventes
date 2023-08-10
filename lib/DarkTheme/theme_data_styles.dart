@@ -21,6 +21,7 @@ class Styles {
       cardColor: isDarkTheme
           ? const Color.fromARGB(255, 193, 192, 192)
           : const Color.fromARGB(255, 193, 192, 192),
+      
       appBarTheme: AppBarTheme(
           elevation: 0.0,
           color: isDarkTheme

@@ -62,7 +62,7 @@ class _EventCardState extends State<EventCard> {
                             ),
                             const SizedBox(width: 5),
                             MyOverFlowText(
-                              text: eventDateRange(widget.event.startTime!, widget.event.endTime!, false, false),
+                              text: eventDateRange(widget.event.startDate!, widget.event.endDate!, false, false),
                               style: MyTextStyle.titleSmall(context),
                               maxLines: 2,
                             ),

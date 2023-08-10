@@ -144,9 +144,9 @@ class _SearchPageState extends State<SearchPage> {
 
   sortEvents(List<Event> events) {
     if (sortMethod == "time↑") {
-      events.sort((a, b) => a.startTime!.isBefore(b.startTime!) ? -1 : 1);
+      events.sort((a, b) => a.startDate!.isBefore(b.startDate!) ? -1 : 1);
     } else if (sortMethod == "time↓") {
-      events.sort((a, b) => a.startTime!.isBefore(b.startTime!) ? 1 : -1);
+      events.sort((a, b) => a.startDate!.isBefore(b.startDate!) ? 1 : -1);
     } else if (sortMethod == "likes") {
       events.sort((a, b) => a.likes > b.likes ? -1 : 1);
     }

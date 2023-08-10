@@ -47,6 +47,7 @@ dependencies:
   provider: ^6.0.5
   shared_preferences: ^2.2.0
   collection: ^1.17.1
+  time_range_picker: ^2.2.0
 
 dev_dependencies:
   flutter_test:

@@ -3,7 +3,7 @@ import 'package:time_range_picker/time_range_picker.dart';
 import 'package:ventes/Components/components.dart';
 import 'package:ventes/Styles/text_style.dart';
 import 'package:ventes/data.dart';
-import 'globals.dart';
+import 'package:ventes/globals.dart';
 
 // This is the first page for the add event process
 // should add a title, description, date, time and location

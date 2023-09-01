@@ -100,6 +100,12 @@ class _OTPPageState extends State<OTPPage> {
       }
     });
   }
+  @override
+  void dispose() {
+    timer.cancel();
+    otpController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ventes/Functions/events_data.dart';
 import 'package:ventes/Functions/users_data.dart';
 import 'package:ventes/data.dart';
-import 'package:ventes/MainApp/Search/components.dart';
-import 'package:ventes/MainApp/Search/event_dialog.dart';
+import 'package:ventes/MainApp/event_card.dart';
+import 'package:ventes/MainApp/event_dialog.dart';
 import 'package:ventes/MainApp/Search/filter_dialog.dart';
 import 'package:ventes/Components/loading_components.dart';
 
@@ -30,19 +30,16 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  onTap(Event event) {
-    showDialog(
+  onTap(Event event) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return EventDialog(
           event: event,
-          addLike: addLike,
-          removeLike: removeLike,
-          joinEvent: joinEvent,
-          leaveEvent: leaveEvent,
         );
       },
     );
+    setEvents();
   }
 
   setEvents() {
@@ -153,10 +150,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   List<Event> preprocessEvents(List<Event> events) {
-    debugPrint("in preprocessEvents");
     List<Event> validEvents = [];
     for (Event event in events) {
-      debugPrint("event: ${event.title}");
+      // debugPrint("event: ${event.title}");
       bool valid = false;
       if (matchRequirements(event) &&
           matchFilter(event) &&
@@ -167,6 +163,12 @@ class _SearchPageState extends State<SearchPage> {
     }
     sortEvents(validEvents);
     return validEvents;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setEvents();
   }
 
   @override
@@ -243,9 +245,13 @@ class _SearchPageState extends State<SearchPage> {
                 if (!snapshot.hasData) {
                   return const Loading();
                 }
-
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Loading();
+                }
+                if (snapshot.hasError) {
+                  return const Center(child: Text("Error"));
+                }
                 List<Event> events = snapshot.data as List<Event>;
-                debugPrint(events.toString());
                 List<Event> validEvents = preprocessEvents(events);
 
                 if (validEvents.isEmpty) {
@@ -261,10 +267,6 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) {
                         return EventCard(
                           event: validEvents[index],
-                          addLike: addLike,
-                          removeLike: removeLike,
-                          joinEvent: joinEvent,
-                          leaveEvent: leaveEvent,
                           onTap: onTap,
                         );
                       },

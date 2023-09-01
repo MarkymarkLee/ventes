@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ventes/Auth/auth_service.dart';
 import 'package:ventes/DarkTheme/theme_mode_notifier.dart';
-import 'package:ventes/MainApp/Profile/edit_profile_page.dart';
+import 'package:ventes/MainApp/edit_profile_page.dart';
 import 'package:ventes/Styles/text_style.dart';
+
+import 'profile_info.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -15,11 +17,8 @@ class SettingPage extends StatelessWidget {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(children: [
-        Text(
-          "Setting Page",
-          style: MyTextStyle.titleCustomFontsize(context, 30),
-          textAlign: TextAlign.center,
-        ),
+        const SizedBox(height: 20),
+        const ProfileInfo(),
         const SizedBox(
           height: 20,
         ),

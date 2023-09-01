@@ -11,9 +11,11 @@ class Event {
   String image = "";
   String eventID = "";
   int likes = 0;
-  List<dynamic> tags = [];
   int maxPeople = 0;
   int currentPeople = 0;
+  List<dynamic> likedID = [];
+  List<dynamic> joinedID = [];
+  List<dynamic> tags = [];
   String genderLimit = "all";
   bool needGroupChat = true;
   bool chatWithHost = false;
@@ -31,14 +33,16 @@ class Event {
     this.image = "",
     this.eventID = "",
     this.likes = 0,
-    tags,
     this.maxPeople = 0,
+    tags,
     this.genderLimit = "all",
     this.needGroupChat = true,
     this.chatWithHost = false,
     this.hostID = "",
     this.groupChatID = "",
     this.currentPeople = 0,
+    likedID,
+    joinedID,
   }) {
     if (startDate != null) this.startDate = startDate;
     if (endDate != null) this.endDate = endDate;
@@ -48,6 +52,16 @@ class Event {
       this.tags = tags;
     } else {
       this.tags = [];
+    }
+    if (likedID != null) {
+      this.likedID = likedID;
+    } else {
+      this.likedID = [];
+    }
+    if (joinedID != null) {
+      this.joinedID = joinedID;
+    } else {
+      this.joinedID = [];
     }
   }
 
@@ -77,6 +91,8 @@ class Event {
       hostID: json?['hostID'],
       groupChatID: json?['groupChatID'],
       currentPeople: json?['currentPeople'],
+      likedID: json?['likedID'],
+      joinedID: json?['joinedID'],
     );
   }
 
@@ -106,6 +122,8 @@ class Event {
       'hostID': hostID,
       'groupChatID': groupChatID,
       'currentPeople': currentPeople,
+      'likedID': likedID,
+      'joinedID': joinedID,
     };
   }
 }
@@ -120,16 +138,16 @@ class AppUser {
   List<dynamic> chatIDs = [];
   List<dynamic> tags = [];
 
-  AppUser(
-      {this.email = "",
-      this.name = "",
-      this.gender = "",
-      this.tags = const [],
-      createdEvents,
-      joinedEvents,
-      likedEvents,
-      chatIDs,
-      }) {
+  AppUser({
+    this.email = "",
+    this.name = "",
+    this.gender = "",
+    this.tags = const [],
+    createdEvents,
+    joinedEvents,
+    likedEvents,
+    chatIDs,
+  }) {
     this.createdEvents = createdEvents ?? [];
     this.joinedEvents = joinedEvents ?? [];
     this.likedEvents = likedEvents ?? [];
@@ -165,8 +183,8 @@ class AppUser {
 
 AppUser currentUser = AppUser();
 
-String eventDateRange(DateTime startDate, DateTime endDate, bool showWeekday,
-    bool showYear) {
+String eventDateRange(
+    DateTime startDate, DateTime endDate, bool showWeekday, bool showYear) {
   return "${dateText(startDate, showWeekday, showYear)} ~ ${dateText(endDate, showWeekday, showYear)}";
 }
 
@@ -183,7 +201,8 @@ String dateText(DateTime date, bool showWeekday, bool showYear) {
   }
 }
 
-String eventTimeRange(TimeOfDay startDate, TimeOfDay endDate, {bool is24HourFormat = true}) {
+String eventTimeRange(TimeOfDay startDate, TimeOfDay endDate,
+    {bool is24HourFormat = true}) {
   return "${timeText(startDate, is24HourFormat)} ~ ${timeText(endDate, is24HourFormat)}";
 }
 

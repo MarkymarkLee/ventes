@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/MainApp/Chat/main_chat_page.dart';
-import 'package:ventes/MainApp/Profile/main_profile_page.dart';
+import 'package:ventes/MainApp/MyEvents/my_events.dart';
 import 'package:ventes/MainApp/Search/main_search_page.dart';
 import 'package:ventes/MainApp/Setting/main_setting_page.dart';
 
@@ -12,7 +12,7 @@ class MainAppPage extends StatefulWidget {
 }
 
 class _MainAppPageState extends State<MainAppPage> {
-  var selectedIndex = 1;
+  var selectedIndex = 0;
 
   onItemTapped(int index) {
     setState(() {
@@ -21,8 +21,8 @@ class _MainAppPageState extends State<MainAppPage> {
   }
 
   List<Widget> pages = const [
+    MyEventsPage(),
     SearchPage(),
-    ProfilePage(),
     ChatPage(),
     SettingPage(),
   ];
@@ -36,8 +36,8 @@ class _MainAppPageState extends State<MainAppPage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.event), label: "My events"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Chat"),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),

@@ -89,4 +89,18 @@ abstract class UsersData {
       rethrow;
     }
   }
+
+  static Future<void> removeEventsFromUser(
+      String email, String eventType, String eventID) async {
+    try {
+      // Get reference to Firestore collection
+      var doc = await users.doc(email).get();
+      List<dynamic> events = doc.get(eventType);
+      events.remove(eventID);
+      print(events);
+      await users.doc(email).update({eventType: events});
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

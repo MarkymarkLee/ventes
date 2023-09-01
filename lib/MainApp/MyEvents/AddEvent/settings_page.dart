@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Styles/text_style.dart';
-import 'globals.dart';
+import 'package:ventes/globals.dart';
 
 // This is the second page for the add event process
 // should add limits to who can join or the requirements for this event

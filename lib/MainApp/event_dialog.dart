@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Components/components.dart';
-import 'package:ventes/MainApp/Search/components.dart';
+import 'package:ventes/MainApp/event_card.dart';
 import 'package:ventes/Styles/text_style.dart';
 import 'package:ventes/data.dart';
+import 'package:ventes/Functions/events_data.dart';
 
 class EventDialog extends StatefulWidget {
   final Event event;
-  final Function addLike;
-  final Function removeLike;
-  final Function joinEvent;
-  final Function leaveEvent;
-  const EventDialog(
-      {super.key,
-      required this.event,
-      required this.addLike,
-      required this.removeLike,
-      required this.joinEvent,
-      required this.leaveEvent});
+  const EventDialog({super.key, required this.event});
 
   @override
   State<EventDialog> createState() => _EventDialogState();
@@ -178,47 +169,39 @@ class _EventDialogState extends State<EventDialog> {
           },
           child: const Text("GOT IT"),
         ),
-        TextButton(
-            onPressed: () {
-              if (currentUser.likedEvents.contains(widget.event.eventID)) {
-                widget.removeLike(widget.event);
-                Navigator.pop(context);
-              } else {
-                widget.addLike(widget.event);
-                Navigator.pop(context);
-              }
-            },
-            child: Text(
-              currentUser.likedEvents.contains(widget.event.eventID)
-                  ? "DISLIKE"
-                  : "LIKE",
-              style: TextStyle(
-                  color: currentUser.likedEvents.contains(widget.event.eventID)
-                      ? Colors.black
-                      : Colors.red),
-            )),
-        if (currentUser.joinedEvents.contains(widget.event.eventID))
+        if (widget.event.hostID == currentUser.email)
           TextButton(
-            onPressed: () {
-              widget.leaveEvent(widget.event);
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "LEAVE",
-              style: TextStyle(color: Colors.black),
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text("Are you sure?"),
+                  content: const Text(
+                      "This action will remove the event from the database. This action cannot be undone. Are you sure you want to continue?"),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        await EventsData.removeEvent(widget.event.eventID);
+                        if (!mounted) return;
+                        currentUser.createdEvents.remove(widget.event.eventID);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: const Text('YES'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('NO'),
+                    ),
+                  ],
+                );
+              },
             ),
-          )
-        else if (widget.event.currentPeople < widget.event.maxPeople ||
-            widget.event.maxPeople == 0)
-          TextButton(
-            onPressed: () {
-              widget.joinEvent(widget.event);
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "JOIN",
-              style: TextStyle(color: Colors.red),
-            ),
+            // EventsData.removeEvent(widget.event.eventID);
+
+            child: const Text("REMOVE EVENT"),
           ),
       ],
     );

@@ -1,29 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:ventes/Functions/events_data.dart';
+import 'package:ventes/Functions/users_data.dart';
 import 'package:ventes/Styles/text_style.dart';
 import 'package:ventes/data.dart';
 import 'package:ventes/Components/components.dart';
 
 class EventCard extends StatefulWidget {
   final Event event;
-  final Function addLike;
-  final Function removeLike;
-  final Function joinEvent;
-  final Function leaveEvent;
   final dynamic onTap;
-  const EventCard(
-      {super.key,
-      required this.event,
-      required this.addLike,
-      required this.removeLike,
-      required this.joinEvent,
-      required this.leaveEvent,
-      required this.onTap});
+  const EventCard({super.key, required this.event, required this.onTap});
 
   @override
   State<EventCard> createState() => _EventCardState();
 }
 
 class _EventCardState extends State<EventCard> {
+  addLike(Event event) {
+    EventsData.updateEvent(event.eventID, {"likes": event.likes + 1});
+    EventsData.addUsers(currentUser.email, event.eventID, "likedID");
+    currentUser.likedEvents.add(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"likedEvents": currentUser.likedEvents});
+    setState(() {
+      event.likes++;
+    });
+  }
+
+  removeLike(Event event) {
+    EventsData.updateEvent(event.eventID, {"likes": event.likes - 1});
+    EventsData.removeUsers(currentUser.email, event.eventID, "likedID");
+    currentUser.likedEvents.remove(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"likedEvents": currentUser.likedEvents});
+    setState(() {
+      event.likes--;
+    });
+  }
+
+  joinEvent(Event event) {
+    currentUser.joinedEvents.add(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"joinedEvents": currentUser.joinedEvents});
+    EventsData.updateEvent(
+        event.eventID, {"currentPeople": event.currentPeople + 1});
+    EventsData.addUsers(currentUser.email, event.eventID, "joinedID");
+    setState(() {
+      event.currentPeople++;
+    });
+  }
+
+  leaveEvent(Event event) {
+    currentUser.joinedEvents.remove(event.eventID);
+    UsersData.updateUser(
+        currentUser.email, {"joinedEvents": currentUser.joinedEvents});
+    EventsData.updateEvent(
+        event.eventID, {"currentPeople": event.currentPeople - 1});
+    EventsData.removeUsers(currentUser.email, event.eventID, "joinedID");
+    setState(() {
+      event.currentPeople--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -53,7 +90,8 @@ class _EventCardState extends State<EventCard> {
                       children: [
                         Container(height: 5),
                         Text(widget.event.title,
-                            style: MyTextStyle.display1(context)),
+                            style:
+                                MyTextStyle.displayCustomFontsize(context, 20)),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -62,7 +100,8 @@ class _EventCardState extends State<EventCard> {
                             ),
                             const SizedBox(width: 5),
                             MyOverFlowText(
-                              text: eventDateRange(widget.event.startDate!, widget.event.endDate!, false, false),
+                              text: eventDateRange(widget.event.startDate!,
+                                  widget.event.endDate!, false, false),
                               style: MyTextStyle.titleSmall(context),
                               maxLines: 2,
                             ),
@@ -90,8 +129,8 @@ class _EventCardState extends State<EventCard> {
                             const SizedBox(width: 10),
                             LikesButton(
                                 event: widget.event,
-                                addLike: widget.addLike,
-                                removeLike: widget.removeLike),
+                                addLike: addLike,
+                                removeLike: removeLike),
                           ],
                         )
                       ],
@@ -105,13 +144,13 @@ class _EventCardState extends State<EventCard> {
                           ? MyTextButton(
                               buttonText: "DISLIKE",
                               onTap: () {
-                                widget.removeLike(widget.event);
+                                removeLike(widget.event);
                               },
                             )
                           : MyTextButton(
                               buttonText: "LIKE",
                               onTap: () {
-                                widget.addLike(widget.event);
+                                addLike(widget.event);
                               },
                               textColor: Colors.red,
                             ),
@@ -120,13 +159,13 @@ class _EventCardState extends State<EventCard> {
                           ? MyTextButton(
                               buttonText: "LEAVE",
                               onTap: () {
-                                widget.leaveEvent(widget.event);
+                                leaveEvent(widget.event);
                               },
                             )
                           : MyTextButton(
                               buttonText: "JOIN",
                               onTap: () {
-                                widget.joinEvent(widget.event);
+                                joinEvent(widget.event);
                               },
                               textColor: Colors.red,
                             ),

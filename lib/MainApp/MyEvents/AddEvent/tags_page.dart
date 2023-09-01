@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Components/components.dart';
 import 'package:ventes/Functions/users_data.dart';
-import 'package:ventes/MainApp/Profile/AddEvent/globals.dart';
+import 'package:ventes/globals.dart';
 import 'package:ventes/Styles/text_style.dart';
 import 'package:ventes/data.dart';
 
@@ -18,10 +18,7 @@ class _TagsPageState extends State<TagsPage> with TickerProviderStateMixin {
   TabController? myTabsController;
   static const List<Tab> myTabs = <Tab>[
     Tab(text: 'Recommended tags', icon: Icon(Icons.thumb_up)),
-    Tab(
-      text: 'My tags',
-      icon: Icon(Icons.favorite_border),
-    ),
+    Tab(text: 'My tags', icon: Icon(Icons.favorite_border)),
   ];
   List<String> recommendedTags = ["Club", "Sports", "Music", "Food", "Games"];
 

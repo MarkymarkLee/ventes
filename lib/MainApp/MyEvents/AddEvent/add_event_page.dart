@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ventes/Auth/auth_service.dart';
-import 'package:ventes/Functions/test.dart';
+import 'package:ventes/Functions/random_string.dart';
 import 'title_page.dart';
 import 'settings_page.dart';
 import 'tags_page.dart';
-import 'globals.dart';
+import 'package:ventes/globals.dart';
 import 'package:ventes/data.dart';
 import 'package:ventes/Functions/events_data.dart';
 import 'package:ventes/Functions/users_data.dart';
@@ -33,8 +33,7 @@ class _AddEventPageState extends State<AddEventPage> {
         titleError = "Title cannot be empty";
         return false;
       }
-    }
-    else if (curPage == 1) {
+    } else if (curPage == 1) {
       if (createdEvent.maxPeople < 0) {
         maxPeopleError = "Maximum number of people cannot be negative";
         return false;
@@ -44,8 +43,7 @@ class _AddEventPageState extends State<AddEventPage> {
         return false;
       }
       maxPeopleError = "";
-    }
-    else if (curPage == 2) {}
+    } else if (curPage == 2) {}
     return true;
   }
 
@@ -59,12 +57,12 @@ class _AddEventPageState extends State<AddEventPage> {
     setState(() {});
   }
 
-  void addcreatedEvent() {
+  static Future<void> addcreatedEvent() async {
     createdEvent.hostID = AuthService().getCurrentUserEmail();
     createdEvent.eventID = getRandomString(20);
-    EventsData.addEvent(createdEvent.eventID, createdEvent.toJson());
+    await EventsData.addEvent(createdEvent.eventID, createdEvent.toJson());
     currentUser.createdEvents.add(createdEvent.eventID);
-    UsersData.updateUser(
+    await UsersData.updateUser(
         currentUser.email, {"createdEvents": currentUser.createdEvents});
   }
 
@@ -94,8 +92,9 @@ class _AddEventPageState extends State<AddEventPage> {
                     child: const Text("Next"))
               else
                 TextButton(
-                    onPressed: () {
-                      addcreatedEvent();
+                    onPressed: () async {
+                      await addcreatedEvent();
+                      if (!mounted) return;
                       Navigator.pop(context);
                     },
                     child: const Text("Finished"))

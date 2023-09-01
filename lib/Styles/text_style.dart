@@ -17,6 +17,13 @@ class MyTextStyle {
     return Theme.of(context).textTheme.headlineMedium;
   }
 
+  static TextStyle? displayCustomFontsize(
+      BuildContext context, double fontSize) {
+    return Theme.of(context).textTheme.headlineMedium!.copyWith(
+          fontSize: fontSize,
+        );
+  }
+
   static TextStyle? headline(BuildContext context) {
     return Theme.of(context).textTheme.headlineSmall;
   }
